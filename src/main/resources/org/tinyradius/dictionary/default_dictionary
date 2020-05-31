@@ -24,7 +24,7 @@ ATTRIBUTE	Callback-Id		20	string
 ATTRIBUTE	Framed-Route		22	string
 ATTRIBUTE	Framed-IPX-Network	23	ipaddr
 ATTRIBUTE	State			24	octets
-ATTRIBUTE	Class			25	octets
+ATTRIBUTE	Class			25	string
 ATTRIBUTE	Vendor-Specific		26	octets
 ATTRIBUTE	Session-Timeout		27	integer
 ATTRIBUTE	Idle-Timeout		28	integer
@@ -46,8 +46,8 @@ ATTRIBUTE	Acct-Output-Octets	43	integer
 ATTRIBUTE	Acct-Session-Id		44	string
 ATTRIBUTE	Acct-Authentic		45	integer
 ATTRIBUTE	Acct-Session-Time	46	integer
-ATTRIBUTE   Acct-Input-Packets	47	integer
-ATTRIBUTE   Acct-Output-Packets	48	integer
+ATTRIBUTE	Acct-Input-Packets	47	integer
+ATTRIBUTE	Acct-Output-Packets	48	integer
 ATTRIBUTE	Acct-Terminate-Cause	49	integer
 ATTRIBUTE	Acct-Multi-Session-Id	50	string
 ATTRIBUTE	Acct-Link-Count		51	integer
@@ -74,13 +74,19 @@ ATTRIBUTE	ARAP-Challenge-Response	84	string
 ATTRIBUTE	Acct-Interim-Interval   85      integer
 ATTRIBUTE	NAS-Port-Id		87	string
 ATTRIBUTE	Framed-Pool		88	string
-ATTRIBUTE	Chargeable-User-Identity		89	string
-ATTRIBUTE	NAS-IPv6-Address	95	octets
+ATTRIBUTE	NAS-IPv6-Address	95	ipv6addr
 ATTRIBUTE	Framed-Interface-Id	96	octets
-ATTRIBUTE	Framed-IPv6-Prefix	97	octets
+ATTRIBUTE	Framed-IPv6-Prefix	97	ipv6prefix
 ATTRIBUTE	Login-IPv6-Host		98	octets
 ATTRIBUTE	Framed-IPv6-Route	99	string
 ATTRIBUTE	Framed-IPv6-Pool	100	string
+ATTRIBUTE	Error-Cause		101	integer
+ATTRIBUTE	Delegated-Ipv6-Prefix	123	ipv6addr
+ATTRIBUTE	Framed-IPv6-Address	168	ipv6addr
+ATTRIBUTE	DNS-Server-IPv6-Address	169	ipv6addr
+ATTRIBUTE	Route-IPv6-Information	170	octets
+ATTRIBUTE	Delegated-IPv6-Prefix-Pool 171	string
+ATTRIBUTE	Stateful-IPv6-Address-Pool 172	string
 ATTRIBUTE	Digest-Response		206	string
 ATTRIBUTE	Digest-Attributes	207	octets
 
@@ -229,6 +235,28 @@ VALUE		Acct-Terminate-Cause	Port-Disabled		22
 
 VALUE		Prompt			No-Echo			0
 VALUE		Prompt			Echo			1
+
+
+VALUE		Error-Cause		Residual-Context-Removed	201
+VALUE		Error-Cause		Invalid-EAP-Packet		202
+VALUE		Error-Cause		Unsupported-Attribute		401
+VALUE		Error-Cause		Missing-Attribute		402
+VALUE		Error-Cause		NAS-Identification-Mismatch	403
+VALUE		Error-Cause		Invalid-Request			404
+VALUE		Error-Cause		Unsupported-Service		405
+VALUE		Error-Cause		Unsupported-Extension		406
+VALUE		Error-Cause		Invalid-Attribute-Value		407
+VALUE		Error-Cause		Administratively-Prohibited	501
+VALUE		Error-Cause		Proxy-Request-Not-Routable	502
+VALUE		Error-Cause		Session-Context-Not-Found	503
+VALUE		Error-Cause		Session-Context-Not-Removable	504
+VALUE		Error-Cause		Proxy-Processing-Error		505
+VALUE		Error-Cause		Resources-Unavailable		506
+VALUE		Error-Cause		Request-Initiated		507
+VALUE		Error-Cause		Multiple-Session-Selection-Unsupported		508
+VALUE		Error-Cause		Location-Info-Required		509
+VALUE		Error-Cause		Response-Too-Big		601
+
 
 #       Wi-Fi Alliance - Wireless ISP Roaming - Best Current Practices v1,
 #       Feb 2003, p 14

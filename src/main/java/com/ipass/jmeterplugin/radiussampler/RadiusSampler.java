@@ -15,8 +15,8 @@ import org.tinyradius.packet.RadiusPacket;
 import org.tinyradius.util.RadiusClient;
 import org.tinyradius.util.RadiusUtil;
 
-import com.ipass.radius.aaasampler.Attribute;
-import com.ipass.radius.aaasampler.IpassDictionary;
+//import com.ipass.radius.aaasampler.Attribute;
+//import com.ipass.radius.aaasampler.IpassDictionary;
 
 public class RadiusSampler extends AbstractSampler
 {
@@ -185,6 +185,8 @@ public class RadiusSampler extends AbstractSampler
 
 					if(retryCount>0)
 						rcClient.setRetryCount(retryCount);
+					else
+						rcClient.setRetryCount(1);
 					acctStartRadiusPacket=rcClient.account(acctReq);
 
 					//Stop records
