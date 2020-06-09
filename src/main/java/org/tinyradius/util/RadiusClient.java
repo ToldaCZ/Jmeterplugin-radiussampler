@@ -10,8 +10,11 @@ package org.tinyradius.util;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.*;
-
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.tinyradius.packet.AccessRequest;
@@ -363,18 +366,11 @@ public class RadiusClient {
 	 * @throws SocketException
 	 */
 	protected DatagramSocket getSocket() throws SocketException {
-		try {
-			if (serverSocket == null) {
-				serverSocket = new DatagramSocket();
-				//serverSocket = new DatagramSocket(8888,InetAddress.getByName("10.155.97.16"));
-				serverSocket.setSoTimeout(getSocketTimeout());
-			}
-			logger.info("src socket address:"+serverSocket.getLocalAddress()+", port:"+serverSocket.getLocalPort());
-			return serverSocket;
-		} catch (SocketException se) {
-			logger.error("unable to bind socket");
+		if (serverSocket == null) {
+			serverSocket = new DatagramSocket();
+			serverSocket.setSoTimeout(getSocketTimeout());
 		}
-		return null;
+		return serverSocket;
 	}
 
 	/**
