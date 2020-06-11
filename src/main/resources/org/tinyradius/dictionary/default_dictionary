@@ -226,10 +226,10 @@ VALUE           Acct-Terminate-Cause    Service-Unavailable     15
 VALUE           Acct-Terminate-Cause    Callback                16
 VALUE           Acct-Terminate-Cause    User-Error              17
 VALUE           Acct-Terminate-Cause    Host-Request            18
-VALUE		Acct-Terminate-Cause	Supplicant-Restart	19
-VALUE		Acct-Terminate-Cause	Reauthentication-Failure 20
-VALUE		Acct-Terminate-Cause	Port-Reinit		21
-VALUE		Acct-Terminate-Cause	Port-Disabled		22
+VALUE		    Acct-Terminate-Cause	Supplicant-Restart	19
+VALUE		    Acct-Terminate-Cause	Reauthentication-Failure 20
+VALUE		    Acct-Terminate-Cause	Port-Reinit		21
+VALUE		    Acct-Terminate-Cause	Port-Disabled		22
 
 #	Prompt
 
@@ -276,3 +276,20 @@ VENDORATTR      14122   WISPr-Session-Terminate-Time  9       string
 VENDORATTR      14122   WISPr-Session-Terminate-End-Of-Day    10      integer
 VENDORATTR      14122   WISPr-Billing-Class-Of-Service        11      string
 
+
+#
+##################### DTIT #####################
+#
+
+
+VENDOR			8164	Starent
+
+VENDORATTR      8164    SN-Virtual-APN-Name             94  string
+VENDORATTR      8164    SN-Software-Version             288  string
+VENDORATTR      8164    SN-GTP-Version                  62  integer
+
+VENDOR  		10415	3GPP
+VENDORATTR      10415   3GPP-Charging-Characteristics   13  string
+#
+##################### DTIT #####################
+#

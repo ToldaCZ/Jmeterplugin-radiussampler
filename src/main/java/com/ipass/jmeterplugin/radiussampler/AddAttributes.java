@@ -34,8 +34,8 @@ public class AddAttributes extends RadiusAttribute{
 
 	public static void main(String[] args) {
 		CollectionProperty collectionProperty = new CollectionProperty();
-		collectionProperty.addItem("User-Name\tpavan");
-		collectionProperty.addItem("User-Password\tpavan");
+		//collectionProperty.addItem("User-Name\tpavan");
+		//collectionProperty.addItem("User-Password\tpavan");
 
 		System.out.println(collectionProperty);
 		System.out.println(new AddAttributes().removeAttributes(collectionProperty));
@@ -53,10 +53,12 @@ public class AddAttributes extends RadiusAttribute{
 				if(collectionProperty.get(i).toString().toLowerCase().startsWith("user-password"))
 					collectionProperty.remove(i);
 
+				if(collectionProperty.get(i).toString().toLowerCase().startsWith("acct-status-type"))
+					collectionProperty.remove(i);
 			}
 		}catch
 		(Exception e){
-
+			System.out.println("removeAttributes exception:"+e.toString());
 		}
 
 		return collectionProperty;
@@ -64,14 +66,14 @@ public class AddAttributes extends RadiusAttribute{
 	
 	public boolean checkPaddedAttribute(String name){
 		try{
-			
+			//System.out.println("Debug name: "+name);
 			if(name.toLowerCase().startsWith("user-name")||name.toLowerCase().startsWith("user-password"))
 				return true;
 			
 			
 		}catch
 		(Exception e){
-
+			System.out.println("Debug name - "+name+" Exeption -"+e);
 		}
 
 		return false;
@@ -79,8 +81,8 @@ public class AddAttributes extends RadiusAttribute{
 
 	public AccountingRequest addAcctRadiusAttribute(AccountingRequest acctRequest,CollectionProperty collectionProperty){
 
+		collectionProperty=removeAttributes(collectionProperty);
 		int size = collectionProperty.size();
-		//collectionProperty=removeAttributes(collectionProperty);
 		for (int row = 0; row < size; row++)
 		{
 			JMeterProperty rowProperty = collectionProperty.get(row);
@@ -88,10 +90,16 @@ public class AddAttributes extends RadiusAttribute{
 
 			String name = arAttribute.getName();
 			String value = arAttribute.getValue();
-			if(name!=null && value!=null && !checkPaddedAttribute(name)){
+			if(name!=null && name.length() >0 && value!=null && value.length()>0 && !checkPaddedAttribute(name)){
 				acctRequest.addAttribute(name, value);
-			}else{
-				System.out.println("name and val is empty - "+name+"val"+value);
+			}else if (name==null || name.length() <1 || value==null || value.length()<1){
+				System.out.println("Attribute name or val is empty. Attribute - "+name+" value - "+value);
+				throw new NullPointerException("Attribute name or val is empty. Attribute - "+name+" value - "+value);
+			} else {
+				if (!checkPaddedAttribute(name)) {
+					System.out.println("Unknown error. Attribute - " + name + " value - " + value);
+					throw new NullPointerException("Unknown error. Attribute - " + name + " value - " + value);
+				}
 			}
 		}
 

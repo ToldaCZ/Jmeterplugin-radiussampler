@@ -9,6 +9,8 @@ import org.apache.jmeter.testelement.property.CollectionProperty;
 import org.apache.jmeter.testelement.property.JMeterProperty;
 import org.apache.jmeter.testelement.property.TestElementProperty;
 import org.tinyradius.attribute.RadiusAttribute;
+import org.tinyradius.dictionary.DefaultDictionary;
+import org.tinyradius.dictionary.Dictionary;
 import org.tinyradius.packet.AccessRequest;
 import org.tinyradius.packet.AccountingRequest;
 import org.tinyradius.packet.RadiusPacket;
@@ -53,9 +55,9 @@ public class RadiusSampler extends AbstractSampler
 		String password = getPassword();
 		String serverIp = getServerIp();
 		String sharedSecret = getSharedSecret();
+		int acctStatusType = getAcctStatusType(); //342
 		int authPort = getAuthPort();
 		int acctPort = getAcctPort();
-
 		int retryCount = getRetryCount();
 		int timeout = getSocketTimeout();
 
@@ -71,19 +73,40 @@ public class RadiusSampler extends AbstractSampler
 
 		AddAttributes add = new AddAttributes();
 
+
 		if((userName==null || userName.length()<=0 ) && collectionProperty!=null){
-			userName = add.getRequiredAttribute(collectionProperty,"user-name");
+			userName = add.getRequiredAttribute(collectionProperty,"User-Name");
 		}
 
 		if((password==null || password.length()<=0) && collectionProperty!=null){
-			password = add.getRequiredAttribute(collectionProperty,"user-password");
-		}		
+			password = add.getRequiredAttribute(collectionProperty,"User-Password");
+		}
+
+		if((add.getRequiredAttribute(collectionProperty,"Acct-Status-Type")!=null && add.getRequiredAttribute(collectionProperty,"Acct-Status-Type").length()>0) && collectionProperty!=null) {
+			String tmp;
+			tmp = add.getRequiredAttribute(collectionProperty, "Acct-Status-Type");
+			if (tmp.equals("1")) {
+				acctStatusType = AccountingRequest.ACCT_STATUS_TYPE_START;
+			} else if (tmp.equals("2")) {
+				acctStatusType = AccountingRequest.ACCT_STATUS_TYPE_STOP;
+			} else if (tmp.equals("3")) {
+				acctStatusType = AccountingRequest.ACCT_STATUS_TYPE_INTERIM_UPDATE;
+			} else if (tmp.equals("7")) {
+				acctStatusType = AccountingRequest.ACCT_STATUS_TYPE_ACCOUNTING_ON;
+			} else if (tmp.equals("8")) {
+				acctStatusType = AccountingRequest.ACCT_STATUS_TYPE_ACCOUNTING_OFF;
+			}  else {
+				throw new IllegalArgumentException("Radius Acct-Status-Type value is unsupported: "+tmp);
+				//acctStatusType = AccountingRequest.ACCT_STATUS_TYPE_START;
+			}
+		}
+
 
 		res.sampleStart();
 
 		//collectionProperty = add.removeAttributes(collectionProperty);
 
-		if ( (userName!=null && userName.length()>0 && password!=null && password.length()>0 ) && (serverIp != null) && (serverIp.length() > 0) && (authPort!=0 || acctPort !=0) && (sharedSecret!=null && sharedSecret.length()>0))
+		if ( (userName!=null && userName.length()>0 && password!=null && password.length()>0 ) && (serverIp != null) && (serverIp.length() > 0) && authPort!=0 && acctPort !=0 && (sharedSecret!=null && sharedSecret.length()>0))
 		{
 
 			if(System.getenv("GEN_SES_ID")!=null && System.getenv("GEN_SES_ID").toLowerCase().equals("true"))
@@ -95,8 +118,8 @@ public class RadiusSampler extends AbstractSampler
 				AccessRequest accessReq = null;
 				AccountingRequest acctReq = null;
 				RadiusPacket authRadiusPacket = null;
-				RadiusPacket acctStartRadiusPacket = null;
-				RadiusPacket acctStopRadiusPacket = null;
+				RadiusPacket acctRadiusPacket = null;
+				//RadiusPacket acctStopRadiusPacket = null;
 				boolean reqAuthNAcct = false;
 				boolean authRAcct = true;
 
@@ -136,7 +159,7 @@ public class RadiusSampler extends AbstractSampler
 
 						if(collectionProperty!=null)
 							acctReq=addAttributes.addAcctRadiusAttribute(acctReq, collectionProperty);
-					acctStartRadiusPacket=rcClient.account(acctReq);
+					acctRadiusPacket=rcClient.account(acctReq);
 
 					//Stop records
 					rcClient = new RadiusClient(serverIp,sharedSecret);
@@ -151,7 +174,7 @@ public class RadiusSampler extends AbstractSampler
 						accessReq.addAttribute(getAttributes());*/
 					if(collectionProperty!=null)
 						acctReq=addAttributes.addAcctRadiusAttribute(acctReq, collectionProperty);
-					acctStopRadiusPacket=rcClient.account(acctReq);
+					acctRadiusPacket=rcClient.account(acctReq);
 
 
 				}else if(reqType.equalsIgnoreCase("auth")){
@@ -172,8 +195,9 @@ public class RadiusSampler extends AbstractSampler
 					authRadiusPacket=rcClient.authenticate(accessReq);
 				}else if(reqType.equalsIgnoreCase("acct")){
 					authRAcct=false;
+
 					rcClient = new RadiusClient(serverIp,sharedSecret);
-					acctReq = new AccountingRequest(userName, AccountingRequest.ACCT_STATUS_TYPE_START);
+					acctReq = new AccountingRequest(userName, acctStatusType);
 					rcClient.setAcctPort(acctPort);
 					if(collectionProperty!=null)
 						acctReq=addAttributes.addAcctRadiusAttribute(acctReq, collectionProperty);
@@ -187,22 +211,7 @@ public class RadiusSampler extends AbstractSampler
 						rcClient.setRetryCount(retryCount);
 					else
 						rcClient.setRetryCount(1);
-					acctStartRadiusPacket=rcClient.account(acctReq);
-
-					//Stop records
-					rcClient = new RadiusClient(serverIp,sharedSecret);
-					acctReq = new AccountingRequest(userName, AccountingRequest.ACCT_STATUS_TYPE_STOP);
-					rcClient.setAcctPort(acctPort);
-					/*if(acctRadAttr!=null)
-						accessReq.addAttribute(getAttributes());*/
-					if(timeout>0)
-						rcClient.setSocketTimeout(timeout);
-
-					if(retryCount>0)
-						rcClient.setRetryCount(retryCount);
-					if(collectionProperty!=null)
-						acctReq=addAttributes.addAcctRadiusAttribute(acctReq, collectionProperty);
-					acctStopRadiusPacket=rcClient.account(acctReq);
+					acctRadiusPacket=rcClient.account(acctReq);
 				}else{
 					throw new IllegalArgumentException("Radius packet type is only auth,acct or both. Invalid request Type"+reqType);
 				}
@@ -210,7 +219,7 @@ public class RadiusSampler extends AbstractSampler
 
 				if(reqAuthNAcct){
 
-					if(authRadiusPacket!= null && acctStartRadiusPacket!=null && acctStopRadiusPacket!=null){
+					if(authRadiusPacket!= null && acctRadiusPacket!=null){
 						res.setSuccessful(true);
 						res.setResponseData(authRadiusPacket.getPacketTypeName().getBytes());
 						res.setDataType("text");
@@ -220,11 +229,9 @@ public class RadiusSampler extends AbstractSampler
 					else {
 						res.setSuccessful(false);
 						if(authRadiusPacket==null)
-							res.setResponseMessage("Server Dropped the auth request ");
-						if(acctStartRadiusPacket==null)
-							res.setResponseMessage("Server Dropped the Start request ");
-						if(acctStopRadiusPacket==null)
-							res.setResponseMessage("Server Dropped the Stop request ");
+							res.setResponseMessage("Server Dropped the Auth request ");
+						if(acctRadiusPacket==null)
+							res.setResponseMessage("Server Dropped the Acct request ");
 						res.setResponseCode("500");
 					}
 
@@ -242,46 +249,46 @@ public class RadiusSampler extends AbstractSampler
 						}else{
 							res.setSuccessful(false);
 							if(authRadiusPacket==null)
-								res.setResponseMessage("Server Dropped the auth request ");
+								res.setResponseMessage("Server Dropped the Auth request ");
 							res.setResponseCode("500");
 						}
 
 					}else{
-
-						if(acctStartRadiusPacket!=null && acctStopRadiusPacket!=null){
+						if(acctRadiusPacket!=null){
 							res.setSuccessful(true);
-							res.setResponseData(acctStartRadiusPacket.getPacketTypeName().getBytes());
+							res.setResponseData(acctRadiusPacket.getPacketTypeName().getBytes());
 							res.setDataType("text");
 							res.setResponseCodeOK();
-							res.setResponseMessage(acctStartRadiusPacket.getPacketTypeName());
-						}else{
-							res.setSuccessful(false);
-							if(acctStartRadiusPacket==null)
-								res.setResponseMessage("Server Dropped the start request ");
-							if(acctStopRadiusPacket==null)
-								res.setResponseMessage("Server Dropped the stop request ");
-							res.setResponseCode("500");
+							//res.setResponseMessage(acctStartRadiusPacket.getPacketTypeName());
+							res.setResponseMessage(String.join(",",(acctRadiusPacket.getAttributes())));
 						}
-
 					}
-
 				}
-
 			}
-			catch (Throwable excep)
-			{
+			catch (Throwable excep) {
 				excep.printStackTrace();
 				res.setSuccessful(false);
 				res.setResponseMessage(excep.getMessage());
 				res.setResponseCode("500");
+				throw new NullPointerException(excep.toString());
 			}
 			finally {
-
 				res.sampleEnd();
 
 			}
 		}else{
-			throw new NullPointerException("Some of the parameters like serverIp, port, shared secret cannot be null");
+			if (userName == null || userName.length() == 0)
+				throw new NullPointerException("User-Name cannot be empty");
+			if (password == null || password.length() == 0)
+				throw new NullPointerException("User-Password cannot be empty");
+			if (serverIp == null || serverIp.length() == 0)
+				throw new NullPointerException("Server IP cannot be empty");
+			if (sharedSecret == null || sharedSecret.length() == 0)
+				throw new NullPointerException("Shared Secret cannot be empty");
+			if (authPort < 1)
+				throw new NumberFormatException("Auth port must be greater than 0");
+			if (acctPort < 1)
+				throw new NumberFormatException("Acct port must be greater than 0");
 		}
 		return res;
 	}
@@ -320,8 +327,14 @@ public class RadiusSampler extends AbstractSampler
 		return getPropertyAsString(RadiusSamplerElements.SHARED_SECRET);
 	}
 
+
 	public int getRetryCount(){
 		return getPropertyAsInt(RadiusSamplerElements.RADIUS_RETRY);
+	}
+
+
+	public int getAcctStatusType(){
+		return getPropertyAsInt(RadiusSamplerElements.STATUS_TYPE);
 	}
 
 	public void setRetryCount(int retryCount){

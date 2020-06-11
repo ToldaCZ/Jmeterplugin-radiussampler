@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import org.tinyradius.attribute.RadiusAttribute;
+import org.tinyradius.attribute.VendorSpecificAttribute;
 
 /**
  * Represents a Radius attribute type.
@@ -46,7 +47,7 @@ public class AttributeType {
 	 *            sub-attribute class
 	 */
 	public AttributeType(int vendor, int code, String name, Class type) {
-		setTypeCode(code);
+		setTypeCodeVendor(code);
 		setName(name);
 		setAttributeClass(type);
 		setVendorId(vendor);
@@ -68,8 +69,12 @@ public class AttributeType {
 	 *            type code, 1-255
 	 */
 	public void setTypeCode(int code) {
-		if (code < 1 || code > 255)
+		if (code < 1 || code > 250)
 			throw new IllegalArgumentException("code out of bounds");
+		this.typeCode = code;
+	}
+
+	public void setTypeCodeVendor(int code) {
 		this.typeCode = code;
 	}
 

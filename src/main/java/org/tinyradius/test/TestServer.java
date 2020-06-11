@@ -29,7 +29,7 @@ public class TestServer {
 			// Authorize localhost/testing123
 			public String getSharedSecret(InetSocketAddress client) {
 				if (client.getAddress().getHostAddress().equals("127.0.0.1")) {
-					return "testing123";
+					return "gprsgprs";
 				}
 				return null;
 			}
@@ -67,7 +67,7 @@ public class TestServer {
 
 		System.out.println("Server started.");
 
-		Thread.sleep(1000 * 60 * 30);
+		Thread.sleep(1000 * 60 * 300);
 		System.out.println("Stop server");
 		server.stop();
 	}

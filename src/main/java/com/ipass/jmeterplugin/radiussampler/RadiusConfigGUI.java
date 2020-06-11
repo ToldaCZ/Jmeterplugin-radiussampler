@@ -28,6 +28,9 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
 
 	private static final String DELETE_COMMAND = "Delete"; // $NON-NLS-1$
 
+	private static final String UP = "Up";
+	private static final String DOWN = "Down";
+
 
 
 	/**
@@ -66,8 +69,8 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
 	public javax.swing.JLabel passwordLable;
 	public javax.swing.JPasswordField passwordText;
 	public javax.swing.JRadioButton radioAcct;
-	public javax.swing.JRadioButton radioAuth;
-	public javax.swing.JRadioButton radioBoth;
+	//DTITpublic javax.swing.JRadioButton radioAuth;
+	//DTITpublic javax.swing.JRadioButton radioBoth;
 	public javax.swing.JLabel requestTypeLable;
 	public javax.swing.JLabel retryLable;
 	public javax.swing.JTextField retryText;
@@ -229,9 +232,9 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
         usernameTextField = new javax.swing.JTextField();
         passwordLable = new javax.swing.JLabel();
         passwordText = new javax.swing.JPasswordField();
-        radioAuth = new javax.swing.JRadioButton("Auth Request",true);
+		//DTITradioAuth = new javax.swing.JRadioButton("Auth Request",true);
         radioAcct = new javax.swing.JRadioButton();
-        radioBoth = new javax.swing.JRadioButton();
+		//DTITradioBoth = new javax.swing.JRadioButton();
         
         //Adding session Id
         nGenSessionId = new javax.swing.JRadioButton("Unique Session Id",true);
@@ -256,12 +259,12 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
 
         passwordLable.setText("Password");
 
-        this.radioAuth.setActionCommand("auth");
+		//DTITthis.radioAuth.setActionCommand("auth");
         this.radioAcct.setActionCommand("acct");
-        this.radioBoth.setActionCommand("both");
-        this.buttonGroup1.add(radioAuth);
+		//DTITthis.radioBoth.setActionCommand("both");
+		//DTITthis.buttonGroup1.add(radioAuth);
         this.buttonGroup1.add(radioAcct);
-        this.buttonGroup1.add(radioBoth);
+		//DTITthis.buttonGroup1.add(radioBoth);
 
         this.nGenSessionId.setActionCommand("gensession");
         this.yGenSessionId.setActionCommand("nosession");
@@ -271,15 +274,15 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
         
         yGenSessionId.setText("True");
         nGenSessionId.setText("False");
-        
 
-        radioAuth.setText("Auth Request");
+
+		//DTITradioAuth.setText("Auth Request");
 
 
 
         radioAcct.setText("Acct Request");
 
-        radioBoth.setText("Auth & Acct Request");
+		//DTITradioBoth.setText("Auth & Acct Request");
 
         requestTypeLable.setText("Request Type");
 
@@ -349,11 +352,11 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(requestTypeLable)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(radioAuth)
-                        .addGap(18, 18, 18)
+							//DTIT.addComponent(radioAuth)
+							// DTIT.addGap(18, 18, 18)
                         .addComponent(radioAcct)
-                        .addGap(18, 18, 18)
-                        .addComponent(radioBoth)
+							//DTIT.addGap(18, 18, 18)
+							//DTIT.addComponent(radioBoth)
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -363,9 +366,9 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(usernameLable)
                     .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(radioAuth)
+						//DTIT.addComponent(radioAuth)
                     .addComponent(radioAcct)
-                    .addComponent(radioBoth)
+						//DTIT.addComponent(radioBoth)
                     .addComponent(requestTypeLable))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
