@@ -44,20 +44,30 @@ public class AddAttributes extends RadiusAttribute{
 	public CollectionProperty removeAttributes(CollectionProperty collectionProperty){
 		try{
 			int size=collectionProperty.size();
-
-			for(int i=0;i<size;i++)
-			{
-				if(collectionProperty.get(i).toString().toLowerCase().startsWith("user-name"))
+			for(int i=0;i<size;i++) {
+				//System.out.println("removeAttributes size:" + size + " i:" + i + " collSize:" + collectionProperty.size()+" Attribute:"+collectionProperty.get(i));
+				if (collectionProperty.get(i).toString().toLowerCase().startsWith("user-name")) {
 					collectionProperty.remove(i);
-
-				if(collectionProperty.get(i).toString().toLowerCase().startsWith("user-password"))
-					collectionProperty.remove(i);
-
-				if(collectionProperty.get(i).toString().toLowerCase().startsWith("acct-status-type"))
-					collectionProperty.remove(i);
+					break;
+				}
 			}
-		}catch
-		(Exception e){
+			size=collectionProperty.size();
+			for(int i=0;i<size;i++) {
+				//System.out.println("removeAttributes size:" + size + " i:" + i + " collSize:" + collectionProperty.size()+" Attribute:"+collectionProperty.get(i));
+				if (collectionProperty.get(i).toString().toLowerCase().startsWith("user-password")) {
+					collectionProperty.remove(i);
+					break;
+				}
+			}
+			size=collectionProperty.size();
+			for(int i=0;i<size;i++) {
+				//System.out.println("removeAttributes size:" + size + " i:" + i + " collSize:" + collectionProperty.size()+" Attribute:"+collectionProperty.get(i));
+				if (collectionProperty.get(i).toString().toLowerCase().startsWith("acct-status-type")) {
+					collectionProperty.remove(i);
+					break;
+				}
+			}
+		}catch	(Exception e){
 			System.out.println("removeAttributes exception:"+e.toString());
 		}
 
