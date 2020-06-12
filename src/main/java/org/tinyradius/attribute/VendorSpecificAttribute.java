@@ -149,7 +149,8 @@ public class VendorSpecificAttribute extends RadiusAttribute {
 	 * @return list of RadiusAttribute objects, does not return null
 	 */
 	public List getSubAttributes(int attributeType) {
-		if (attributeType < 1 || attributeType > 255)
+		//TODO: DTIT
+		if (attributeType < 1 || attributeType > 65535)
 			throw new IllegalArgumentException("sub-attribute type out of bounds");
 
 		LinkedList result = new LinkedList();
@@ -234,6 +235,8 @@ public class VendorSpecificAttribute extends RadiusAttribute {
 	public byte[] writeAttribute() {
 		// write vendor ID
 		ByteArrayOutputStream bos = new ByteArrayOutputStream(255);
+		//bos.write(getChildVendorId() >> 40 & 0x0ffff);
+		//bos.write(getChildVendorId() >> 32 & 0x0ffff);
 		bos.write(getChildVendorId() >> 24 & 0x0ff);
 		bos.write(getChildVendorId() >> 16 & 0x0ff);
 		bos.write(getChildVendorId() >> 8 & 0x0ff);

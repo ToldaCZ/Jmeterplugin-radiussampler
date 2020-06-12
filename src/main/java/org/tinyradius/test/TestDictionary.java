@@ -34,7 +34,7 @@ public class TestDictionary {
 		ar.addAttribute(new Ipv6Attribute(168, "fe80::"));
 		ar.addAttribute(new Ipv6PrefixAttribute(97, "fe80::/64"));
 		ar.addAttribute(new Ipv6PrefixAttribute(97, "fe80::/128"));
-		//ar.addAttribute("SN-VPN-ID","1");
+		ar.addAttribute("SN-Software-Version","21.10 (230474)");
 		//ar.addAttribute("SN-Disconnect-Reason","6");
 		//ar.addAttribute("SN-Local-IP-Address","10.11.12.213");
 		System.out.println(ar);

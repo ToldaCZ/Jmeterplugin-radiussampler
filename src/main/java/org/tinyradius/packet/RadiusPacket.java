@@ -135,7 +135,9 @@ public class RadiusPacket {
 	 *            packet identifier, 0-255
 	 */
 	public void setPacketIdentifier(int identifier) {
-		if (identifier < 0 || identifier > 255)
+		//TODO: DTIT Change this ...
+		if (identifier < 0 || identifier > 65535)
+		//if (identifier < 0 || identifier > 255)
 			throw new IllegalArgumentException("packet identifier out of bounds");
 		this.packetIdentifier = identifier;
 	}
@@ -215,7 +217,8 @@ public class RadiusPacket {
 	 *            packet type, 0-255
 	 */
 	public void setPacketType(int type) {
-		if (type < 1 || type > 255)
+		//TODO: DTIT Change this ...
+		if (type < 1 || type > 65535)
 			throw new IllegalArgumentException("packet type out of bounds");
 		this.packetType = type;
 	}
@@ -325,7 +328,8 @@ public class RadiusPacket {
 	 *            attribute type to remove
 	 */
 	public void removeAttributes(int type) {
-		if (type < 1 || type > 255)
+		//TODO: DTIT
+		if (type < 1 || type > 65535)
 			throw new IllegalArgumentException("attribute type out of bounds");
 
 		Iterator i = attributes.iterator();
@@ -393,7 +397,8 @@ public class RadiusPacket {
 	 * @return list of RadiusAttribute objects, does not return null
 	 */
 	public List getAttributes(int attributeType) {
-		if (attributeType < 1 || attributeType > 255)
+		//TODO: DTIT Change this ...
+		if (attributeType < 1 || attributeType > 65535)
 			throw new IllegalArgumentException("attribute type out of bounds");
 
 		LinkedList result = new LinkedList();
@@ -833,6 +838,7 @@ public class RadiusPacket {
 	 * @exception RuntimeException
 	 *                if required packet data has not been set
 	 */
+	//TODO: DTIT encode
 	protected void encodePacket(OutputStream out, String sharedSecret, RadiusPacket request) throws IOException {
 		// check shared secret
 		if (sharedSecret == null || sharedSecret.length() == 0)

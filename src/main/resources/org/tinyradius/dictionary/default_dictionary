@@ -287,6 +287,7 @@ VENDOR			8164	Starent
 VENDORATTR      8164    SN-Virtual-APN-Name             94  string
 VENDORATTR      8164    SN-Software-Version             288  string
 VENDORATTR      8164    SN-GTP-Version                  62  integer
+VENDORATTR      8164    SN-VPN-ID                        1  integer
 
 VENDOR  		10415	3GPP
 VENDORATTR      10415   3GPP-Charging-Characteristics   13  string

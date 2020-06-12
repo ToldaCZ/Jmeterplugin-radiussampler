@@ -77,7 +77,9 @@ public class RadiusAttribute {
 	 *            type code, 0-255
 	 */
 	public void setAttributeType(int attributeType) {
-		if (attributeType < 0 || attributeType > 255)
+		//TODO: DTIT Change this ...
+		if (attributeType < 0 || attributeType > 65535)
+
 			throw new IllegalArgumentException("attribute type invalid: " + attributeType);
 		this.attributeType = attributeType;
 	}
@@ -157,12 +159,22 @@ public class RadiusAttribute {
 			throw new IllegalArgumentException("attribute type not set");
 		if (attributeData == null)
 			throw new NullPointerException("attribute data not set");
+		if (getVendorId() != 8164) {
+			byte[] attr = new byte[2 + attributeData.length];
+			attr[0] = (byte) getAttributeType();
+			attr[1] = (byte) (2 + attributeData.length);
+			System.arraycopy(attributeData, 0, attr, 2, attributeData.length);
+			return attr;
+		} else {
+			byte[] attr = new byte[4 + attributeData.length];
+			attr[0] = (byte) ((getAttributeType() >> 8)) ;
+			attr[1] = (byte) (getAttributeType());
+			attr[2] = (byte) (((4 + attributeData.length) >> 8 ));
+			attr[3] = (byte) ((4 + attributeData.length ));
+			System.arraycopy(attributeData, 0, attr, 4, attributeData.length);
+			return attr;
+		}
 
-		byte[] attr = new byte[2 + attributeData.length];
-		attr[0] = (byte) getAttributeType();
-		attr[1] = (byte) (2 + attributeData.length);
-		System.arraycopy(attributeData, 0, attr, 2, attributeData.length);
-		return attr;
 	}
 
 	/**
