@@ -284,13 +284,24 @@ VENDORATTR      14122   WISPr-Billing-Class-Of-Service        11      string
 
 VENDOR			8164	Starent
 
-VENDORATTR      8164    SN-Virtual-APN-Name             94  string
+VENDORATTR      8164    SN-VPN-ID                         1  integer
+VENDORATTR      8164    SN-GTP-Version                   62  integer
+VENDORATTR      8164    SN-Virtual-APN-Name              94  string
 VENDORATTR      8164    SN-Software-Version             288  string
-VENDORATTR      8164    SN-GTP-Version                  62  integer
-VENDORATTR      8164    SN-VPN-ID                        1  integer
 
 VENDOR  		10415	3GPP
+VENDORATTR      10415   3GPP-IMSI                        1  string
+VENDORATTR      10415   3GPP-Charging-ID                 2  integer
+VENDORATTR      10415   3GPP-SGSN-Address                6  ipaddr
+VENDORATTR      10415   3GPP-GGSN-Address                7  ipaddr
+VENDORATTR      10415   3GPP-IMSI-MCC-MNC                8  string
+VENDORATTR      10415   3GPP-GGSN-MCC-MNC                9  string
+VENDORATTR      10415   3GPP-NSAPI                      10  string
+VENDORATTR      10415   3GPP-Selection-Mode             12  string
 VENDORATTR      10415   3GPP-Charging-Characteristics   13  string
+VENDORATTR      10415   3GPP-IMEISV                     20  string
+VENDORATTR      10415   3GPP-RAT-Type                   21  integer
+VENDORATTR      10415   3GPP-MS-TimeZone                23  octets
 #
 ##################### DTIT #####################
 #

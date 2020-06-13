@@ -14,6 +14,8 @@ import org.tinyradius.dictionary.Dictionary;
 import org.tinyradius.util.RadiusException;
 import org.tinyradius.util.RadiusUtil;
 
+import java.util.StringTokenizer;
+
 /**
  * This class represents a generic Radius attribute. Subclasses implement
  * methods to access the fields of special attributes.
@@ -91,7 +93,16 @@ public class RadiusAttribute {
 	 *            value as a string
 	 */
 	public void setAttributeValue(String value) {
-		throw new RuntimeException("cannot set the value of attribute " + attributeType + " as a string");
+		//TODO: DTIT octet?
+		StringTokenizer tok = new StringTokenizer(value, " ");
+		byte[] data = new byte[tok.countTokens()];
+		for (int i = 0; i < tok.countTokens(); i++) {
+			int num = Integer.parseInt(tok.nextToken());
+			data[i] = (byte)num;
+		}
+		setAttributeData(data);
+		//setAttributeData(value.getBytes());
+		//throw new RuntimeException("cannot set the value of attribute " + attributeType + " as a string");
 	}
 
 	/**

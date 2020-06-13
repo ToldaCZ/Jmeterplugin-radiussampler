@@ -29,12 +29,15 @@ public class TestDictionary {
 		Dictionary dictionary = DefaultDictionary.getDefaultDictionary();
 		AccessRequest ar = new AccessRequest("UserName", "UserPassword");
 		ar.setDictionary(dictionary);
-		ar.addAttribute("WISPr-Location-ID", "LocationID");
-		ar.addAttribute(new IpAttribute(8, 1234567));
-		ar.addAttribute(new Ipv6Attribute(168, "fe80::"));
-		ar.addAttribute(new Ipv6PrefixAttribute(97, "fe80::/64"));
-		ar.addAttribute(new Ipv6PrefixAttribute(97, "fe80::/128"));
-		ar.addAttribute("SN-Software-Version","21.10 (230474)");
+		//ar.addAttribute("WISPr-Location-ID", "LocationID");
+		//ar.addAttribute(new IpAttribute(8, 1234567));
+		//ar.addAttribute(new Ipv6Attribute(168, "fe80::"));
+		//ar.addAttribute(new Ipv6PrefixAttribute(97, "fe80::/64"));
+		//ar.addAttribute(new Ipv6PrefixAttribute(97, "fe80::/128"));
+		//ar.addAttribute("SN-Software-Version","21.10 (230474)");
+		ar.addAttribute("3GPP-MS-TimeZone", "@");
+		//User-Password
+		//ar.addAttribute("Login-LAT-Group", "7");
 		//ar.addAttribute("SN-Disconnect-Reason","6");
 		//ar.addAttribute("SN-Local-IP-Address","10.11.12.213");
 		System.out.println(ar);
