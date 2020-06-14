@@ -34,8 +34,9 @@ public class TestDictionary {
 		//ar.addAttribute(new Ipv6Attribute(168, "fe80::"));
 		//ar.addAttribute(new Ipv6PrefixAttribute(97, "fe80::/64"));
 		//ar.addAttribute(new Ipv6PrefixAttribute(97, "fe80::/128"));
-		ar.addAttribute("SN-Software-Version","21.10 (230474)");
-		ar.addAttribute("3GPP-Negotiated-DSCP", "1");
+		//ar.addAttribute("SN-Software-Version","21.10 (230474)");
+		//ar.addAttribute("3GPP-Negotiated-DSCP", "1");
+		ar.addAttribute("3GPP-User-Location-Info", "130 50 240 16 85 60 50 240 16 01 224 113 112");
 		//User-Password
 		//ar.addAttribute("Login-LAT-Group", "7");
 		//ar.addAttribute("SN-Disconnect-Reason","6");

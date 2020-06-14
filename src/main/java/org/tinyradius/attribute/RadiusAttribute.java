@@ -95,8 +95,9 @@ public class RadiusAttribute {
 	public void setAttributeValue(String value) {
 		//TODO: DTIT octet?
 		StringTokenizer tok = new StringTokenizer(value, " ");
-		byte[] data = new byte[tok.countTokens()];
-		for (int i = 0; i < tok.countTokens(); i++) {
+		int tokens = tok.countTokens();
+		byte[] data = new byte[tokens];
+		for (int i = 0; i < tokens; i++) {
 			int num = Integer.parseInt(tok.nextToken());
 			data[i] = (byte)num;
 		}
