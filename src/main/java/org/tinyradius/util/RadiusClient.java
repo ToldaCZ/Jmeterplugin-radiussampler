@@ -282,6 +282,27 @@ public class RadiusClient {
 	}
 
 	/**
+	 * Sets the Radius server source port.
+	 *
+	 * @param srcPort
+	 *            acct port, 1-65535
+	 */
+	public void setSrcPort(int srcPort) {
+		if (srcPort < 0 || srcPort > 65535)
+			throw new IllegalArgumentException("bad port number");
+		this.srcPort = srcPort;
+	}
+
+	/**
+	 * Returns the Radius server source port.
+	 *
+	 * @return acct port
+	 */
+	public int getSrcPort() {
+		return srcPort;
+	}
+
+	/**
 	 * Set the Radius authentication protocol.
 	 * 
 	 * @see AccessRequest#AUTH_CHAP
@@ -367,7 +388,10 @@ public class RadiusClient {
 	 */
 	protected DatagramSocket getSocket() throws SocketException {
 		if (serverSocket == null) {
-			serverSocket = new DatagramSocket();
+			if (getSrcPort() > 0)
+				serverSocket = new DatagramSocket(getSrcPort());
+			else
+				serverSocket = new DatagramSocket();
 			serverSocket.setSoTimeout(getSocketTimeout());
 		}
 		return serverSocket;
@@ -416,5 +440,6 @@ public class RadiusClient {
 	private int socketTimeout = 3000;
 	private String authProtocol = AccessRequest.AUTH_PAP;
 	private static Log logger = LogFactory.getLog(RadiusClient.class);
+	private int srcPort=0;
 
 }
