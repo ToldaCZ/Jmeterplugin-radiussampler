@@ -14,13 +14,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
-import org.tinyradius.attribute.IntegerAttribute;
-import org.tinyradius.attribute.IpAttribute;
-import org.tinyradius.attribute.Ipv6Attribute;
-import org.tinyradius.attribute.Ipv6PrefixAttribute;
-import org.tinyradius.attribute.RadiusAttribute;
-import org.tinyradius.attribute.StringAttribute;
-import org.tinyradius.attribute.VendorSpecificAttribute;
+
+import org.tinyradius.attribute.*;
 
 /**
  * Parses a dictionary in "Radiator format" and fills a
@@ -200,6 +195,8 @@ public class DictionaryParser {
 			type = RadiusAttribute.class;
 		else if (typeStr.equalsIgnoreCase("integer") || typeStr.equalsIgnoreCase("date"))
 			type = IntegerAttribute.class;
+		else if (typeStr.equalsIgnoreCase("integerByte"))
+			type = IntegerAttributeByte.class;
 		else if (typeStr.equalsIgnoreCase("ipaddr"))
 			type = IpAttribute.class;
 		else if (typeStr.equalsIgnoreCase("ipv6addr"))

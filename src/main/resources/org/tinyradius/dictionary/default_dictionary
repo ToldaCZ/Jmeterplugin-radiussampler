@@ -283,15 +283,25 @@ VENDORATTR      14122   WISPr-Billing-Class-Of-Service        11      string
 
 
 VENDOR			8164	Starent
-
 VENDORATTR      8164    SN-VPN-ID                         1  integer
+VENDORATTR      8164    SN-VPN-Name                       2  string
+VENDORATTR      8164    SN-Service-Type                  24  integer
 VENDORATTR      8164    SN-GTP-Version                   62  integer
 VENDORATTR      8164    SN-Virtual-APN-Name              94  string
+VENDORATTR      8164    SN-Mediation-VPN-Name           104  string
+VENDORATTR      8164    SN-Mediation-Acct-Rsp-Action    105  integer
+VENDORATTR      8164    SN-Mediation-Enabled            123  integer
+VENDORATTR      8164    SN-Mediation-No-Interims        146  integer
+VENDORATTR      8164    SN-Rulebase                     250  string
 VENDORATTR      8164    SN-Software-Version             288  string
+VENDORATTR      8164    SN-Acs-Credit-Control-Group     301  string
 
 VENDOR  		10415	3GPP
 VENDORATTR      10415   3GPP-IMSI                        1  string
 VENDORATTR      10415   3GPP-Charging-ID                 2  integer
+VENDORATTR      10415   3GPP-PDP-Type                    3  integer
+VENDORATTR      10415   3GPP-Charging-Gateway-Address    4  ipaddr
+VENDORATTR      10415   3GPP-GPRS-Negotiated-QoS-profile 5  string
 VENDORATTR      10415   3GPP-SGSN-Address                6  ipaddr
 VENDORATTR      10415   3GPP-GGSN-Address                7  ipaddr
 VENDORATTR      10415   3GPP-IMSI-MCC-MNC                8  string
@@ -299,9 +309,12 @@ VENDORATTR      10415   3GPP-GGSN-MCC-MNC                9  string
 VENDORATTR      10415   3GPP-NSAPI                      10  string
 VENDORATTR      10415   3GPP-Selection-Mode             12  string
 VENDORATTR      10415   3GPP-Charging-Characteristics   13  string
+VENDORATTR      10415   3GPP-SGSN-MCC-MNC               18  string
 VENDORATTR      10415   3GPP-IMEISV                     20  string
-VENDORATTR      10415   3GPP-RAT-Type                   21  integer
+VENDORATTR      10415   3GPP-RAT-Type                   21  integerByte
+VENDORATTR      10415   3GPP-User-Location-Info         22  octets
 VENDORATTR      10415   3GPP-MS-TimeZone                23  octets
+VENDORATTR      10415   3GPP-Negotiated-DSCP            26  integerByte
 #
 ##################### DTIT #####################
 #
