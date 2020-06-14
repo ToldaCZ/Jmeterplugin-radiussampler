@@ -715,6 +715,7 @@ public class RadiusPacket {
 	 * @return the next packet identifier to use
 	 */
 	public static synchronized int getNextPacketIdentifier() {
+		//TODO: DTIT PacketIdentifier
 		nextPacketId++;
 		if (nextPacketId > 255)
 			nextPacketId = 0;

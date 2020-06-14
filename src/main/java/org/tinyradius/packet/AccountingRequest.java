@@ -57,7 +57,8 @@ public class AccountingRequest extends RadiusPacket {
 	public AccountingRequest(String userName, int acctStatusType) {
 		super(ACCOUNTING_REQUEST, getNextPacketIdentifier());
 		setUserName(userName);
-		setAcctStatusType(acctStatusType);
+		//TODO: DTIT
+		//setAcctStatusType(acctStatusType);
 	}
 
 	/**
@@ -128,7 +129,7 @@ public class AccountingRequest extends RadiusPacket {
 
 	/**
 	 * Calculates the request authenticator as specified by RFC 2866.
-	 * 
+	 *
 	 * @see org.tinyradius.packet.RadiusPacket#updateRequestAuthenticator(java.lang.String, int, byte[])
 	 */
 	protected byte[] updateRequestAuthenticator(String sharedSecret, int packetLength, byte[] attributes) {

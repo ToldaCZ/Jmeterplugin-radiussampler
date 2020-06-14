@@ -45,7 +45,6 @@ public class AddAttributes extends RadiusAttribute{
 		try{
 			int size=collectionProperty.size();
 			for(int i=0;i<size;i++) {
-				//System.out.println("removeAttributes size:" + size + " i:" + i + " collSize:" + collectionProperty.size()+" Attribute:"+collectionProperty.get(i));
 				if (collectionProperty.get(i).toString().toLowerCase().startsWith("user-name")) {
 					collectionProperty.remove(i);
 					break;
@@ -53,7 +52,6 @@ public class AddAttributes extends RadiusAttribute{
 			}
 			size=collectionProperty.size();
 			for(int i=0;i<size;i++) {
-				//System.out.println("removeAttributes size:" + size + " i:" + i + " collSize:" + collectionProperty.size()+" Attribute:"+collectionProperty.get(i));
 				if (collectionProperty.get(i).toString().toLowerCase().startsWith("user-password")) {
 					collectionProperty.remove(i);
 					break;
@@ -61,8 +59,7 @@ public class AddAttributes extends RadiusAttribute{
 			}
 			size=collectionProperty.size();
 			for(int i=0;i<size;i++) {
-				//System.out.println("removeAttributes size:" + size + " i:" + i + " collSize:" + collectionProperty.size()+" Attribute:"+collectionProperty.get(i));
-				if (collectionProperty.get(i).toString().toLowerCase().startsWith("acct-status-type")) {
+				if (collectionProperty.get(i).toString().toLowerCase().startsWith("DTITacct-status-type")) {
 					collectionProperty.remove(i);
 					break;
 				}
