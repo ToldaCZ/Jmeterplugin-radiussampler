@@ -60,6 +60,8 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
 	// Variables declaration - do not modify
 	public javax.swing.JLabel acctPortLable;
 	public javax.swing.JTextField acctPortText;
+	public javax.swing.JLabel localAddressLable;
+	public javax.swing.JTextField localAddressText;
 	public javax.swing.JLabel localPortLable;
 	public javax.swing.JTextField localPortText;
 	public javax.swing.JLabel authPortLable;
@@ -80,6 +82,8 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
 	public javax.swing.JTextField serverTextField;
 	public javax.swing.JLabel sharedSecretLable;
 	public javax.swing.JTextField sharedText;
+	public javax.swing.JLabel packerIdentifierLable;
+	public javax.swing.JTextField packerIdentifierText;
 	public javax.swing.JLabel timeoutLable;
 	public javax.swing.JTextField timeoutText;
 	public javax.swing.JLabel usernameLable;
@@ -142,6 +146,9 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
 		this.acctPortText.setText(element
 				.getPropertyAsString(RadiusSamplerElements.ACCT_PORT));
 
+		this.localAddressText.setText(element
+				.getPropertyAsString(RadiusSamplerElements.LOCAL_ADDRESS));
+
 		this.localPortText.setText(element
 				.getPropertyAsString(RadiusSamplerElements.LOCAL_PORT));
 
@@ -150,6 +157,9 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
 
 		this.sharedText.setText(element
 				.getPropertyAsString(RadiusSamplerElements.SHARED_SECRET));
+
+		this.packerIdentifierText.setText(element
+				.getPropertyAsString(RadiusSamplerElements.PACKET_IDENTIFIER));
 
 		this.timeoutText.setText(element
 				.getPropertyAsString(RadiusSamplerElements.SOCKET_TIMEOUT));
@@ -197,12 +207,13 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
 
 		element.setProperty(RadiusSamplerElements.AUTH_PORT, this.authPortText.getText());
 		element.setProperty(RadiusSamplerElements.ACCT_PORT, this.acctPortText.getText());
+		element.setProperty(RadiusSamplerElements.LOCAL_ADDRESS, this.localAddressText.getText());
 		element.setProperty(RadiusSamplerElements.LOCAL_PORT, this.localPortText.getText());
-
 		element.setProperty(RadiusSamplerElements.USER_NAME, this.usernameTextField.getText());
 		element.setProperty(RadiusSamplerElements.PASSWORD, new String(this.passwordText.getPassword()));
 		element.setProperty(RadiusSamplerElements.RADIUS_RETRY, this.retryText.getText());
 		element.setProperty(RadiusSamplerElements.SHARED_SECRET, this.sharedText.getText());
+		element.setProperty(RadiusSamplerElements.PACKET_IDENTIFIER, this.packerIdentifierText.getText());
 		element.setProperty(RadiusSamplerElements.SOCKET_TIMEOUT, this.timeoutText.getText());
 
 		element.setProperty(new TestElementProperty(
@@ -230,7 +241,7 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
 
 		JPanel jp = new JPanel();
 		jp.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createEtchedBorder(), "Radius Server Configuration"));
+				BorderFactory.createEtchedBorder(), "Radius Configuration"));
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonSessionGroup = new javax.swing.ButtonGroup();
         
@@ -250,10 +261,14 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
         serverIpLable = new javax.swing.JLabel();
         sharedSecretLable = new javax.swing.JLabel();
         sharedText = new javax.swing.JTextField();
-        authPortLable = new javax.swing.JLabel();
+		packerIdentifierLable = new javax.swing.JLabel();
+		packerIdentifierText = new javax.swing.JTextField();
+		authPortLable = new javax.swing.JLabel();
         authPortText = new javax.swing.JTextField();
         acctPortLable = new javax.swing.JLabel();
         acctPortText = new javax.swing.JTextField();
+		localAddressLable = new javax.swing.JLabel();
+		localAddressText = new javax.swing.JTextField();
 		localPortLable = new javax.swing.JLabel();
 		localPortText = new javax.swing.JTextField();
         timeoutLable = new javax.swing.JLabel();
@@ -298,11 +313,13 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
 
         sharedSecretLable.setText("Shared Secret");
 
-
+		packerIdentifierLable.setText("Packet Identifier");
 
         authPortLable.setText("Auth Port");
 
         acctPortLable.setText("Acct Port");
+
+		localAddressLable.setText("Local Address");
 
 		localPortLable.setText("Local Port");
 
@@ -346,6 +363,10 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
                         .addGap(18, 18, 18)
                         .addComponent(acctPortText, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addGap(18, 18, 18)
+						.addComponent(localAddressLable)
+						.addGap(18, 18, 18)
+						.addComponent(localAddressText, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addGap(18, 18, 18)
 						.addComponent(localPortLable)
 						.addGap(18, 18, 18)
 						.addComponent(localPortText, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -356,13 +377,17 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
                         .addComponent(timeoutText, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(retryLable)
-                        .addGap(34, 34, 34)
+                        .addGap(44, 44, 44)
                         .addComponent(retryText, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(23, 23, 23)
                         .addComponent(sharedSecretLable)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(sharedText, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(127, 127, 127))
+						.addGap(23, 23, 23)
+						.addComponent(packerIdentifierLable)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+						.addComponent(packerIdentifierText, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addGap(250, 250, 250))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(requestTypeLable)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -393,6 +418,8 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
                             .addComponent(retryText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(sharedSecretLable)
                             .addComponent(sharedText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+							.addComponent(packerIdentifierLable)
+							.addComponent(packerIdentifierText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(timeoutLable))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -400,6 +427,8 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
                             .addComponent(authPortText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(acctPortLable)
                             .addComponent(acctPortText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+							.addComponent(localAddressLable)
+							.addComponent(localAddressText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
 							.addComponent(localPortLable)
 							.addComponent(localPortText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()

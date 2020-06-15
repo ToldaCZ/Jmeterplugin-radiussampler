@@ -42,7 +42,6 @@ public class RadiusSampler extends AbstractSampler
 		return val;
 	}
 
-
 	private static String frameSessionId(String username){
 		String str=genSessionId(97,120);
 		return "0U"+str+"/"+username;
@@ -55,6 +54,8 @@ public class RadiusSampler extends AbstractSampler
 		String password = getPassword();
 		String serverIp = getServerIp();
 		String sharedSecret = getSharedSecret();
+		String localAddress = getLocalAddress();
+		String packetIdentifier = getPacketIdentifier();
 		int acctStatusType = getAcctStatusType(); //342
 		int localPort = getLocalPort();
 		int authPort = getAuthPort();
@@ -198,8 +199,12 @@ public class RadiusSampler extends AbstractSampler
 					authRAcct=false;
 
 					rcClient = new RadiusClient(serverIp,sharedSecret);
-					acctReq = new AccountingRequest(userName, acctStatusType);
+					if (packetIdentifier != null && packetIdentifier.length() > 0)
+						acctReq = new AccountingRequest(userName, acctStatusType, Integer.parseInt(packetIdentifier));
+					else
+						acctReq = new AccountingRequest(userName, acctStatusType);
 					rcClient.setAcctPort(acctPort);
+					rcClient.setLocalAddress(localAddress);
 					rcClient.setLocalPort(localPort);
 					if(collectionProperty!=null)
 						acctReq=addAttributes.addAcctRadiusAttribute(acctReq, collectionProperty);
@@ -320,22 +325,20 @@ public class RadiusSampler extends AbstractSampler
 	}
 
 
-
 	public void setSharedSecret(String sharedSecret)
 	{
 		setProperty(RadiusSamplerElements.SHARED_SECRET, sharedSecret);
 	}
 
-	public String getSharedSecret()
-	{
-		return getPropertyAsString(RadiusSamplerElements.SHARED_SECRET);
-	}
+	public String getSharedSecret()	{ return getPropertyAsString(RadiusSamplerElements.SHARED_SECRET); }
 
+	public void setPacketIdentifier(String packetIdentifier) { setProperty(RadiusSamplerElements.PACKET_IDENTIFIER, packetIdentifier); }
+
+	public String getPacketIdentifier() { return getPropertyAsString(RadiusSamplerElements.PACKET_IDENTIFIER); }
 
 	public int getRetryCount(){
 		return getPropertyAsInt(RadiusSamplerElements.RADIUS_RETRY);
 	}
-
 
 	public int getAcctStatusType(){
 		return getPropertyAsInt(RadiusSamplerElements.STATUS_TYPE);
@@ -364,6 +367,10 @@ public class RadiusSampler extends AbstractSampler
 	public int getAuthPort(){
 		return getPropertyAsInt(RadiusSamplerElements.AUTH_PORT);
 	}
+
+	public void setLocalAddress(String localAddress){setProperty(RadiusSamplerElements.LOCAL_ADDRESS,localAddress); }
+
+	public String getLocalAddress(){ return getPropertyAsString(RadiusSamplerElements.LOCAL_ADDRESS); }
 
 	public void setLocalPort(int localPort){
 	setProperty(RadiusSamplerElements.LOCAL_PORT,localPort);

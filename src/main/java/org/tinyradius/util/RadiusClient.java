@@ -10,11 +10,8 @@ package org.tinyradius.util;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.SocketTimeoutException;
+import java.net.*;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.tinyradius.packet.AccessRequest;
@@ -282,10 +279,35 @@ public class RadiusClient {
 	}
 
 	/**
+	 * Sets the Radius server source address.
+	 *
+	 * @param localAddress
+	 * 			not check yet.
+	 *
+	 */
+	public void setLocalAddress(String localAddress) {
+		this.localAddress = localAddress;
+	}
+
+	/**
+	 * Returns the Radius server source port.
+	 *
+	 * @return acct port
+	 */
+	public InetAddress getLocalAddress() {
+		try {
+			return InetAddress.getByName(localAddress);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
 	 * Sets the Radius server source port.
 	 *
 	 * @param localPort
-	 *            acct port, 1-65535
+	 *            local port, 1-65535
 	 */
 	public void setLocalPort(int localPort) {
 		if (localPort < 0 || localPort > 65535)
@@ -389,9 +411,19 @@ public class RadiusClient {
 	protected DatagramSocket getSocket() throws SocketException {
 		if (serverSocket == null) {
 			if (getLocalPort() > 0)
-				serverSocket = new DatagramSocket(getLocalPort());
-			else
-				serverSocket = new DatagramSocket();
+				if (getLocalAddress() != null) {
+					serverSocket = new DatagramSocket(getLocalPort(),getLocalAddress());
+				} else {
+					serverSocket = new DatagramSocket(getLocalPort());
+				}
+			else {
+				if (getLocalAddress() != null) {
+					//TODO: add adress???
+					serverSocket = new DatagramSocket();
+				} else {
+					serverSocket = new DatagramSocket();
+				}
+			}
 			serverSocket.setSoTimeout(getSocketTimeout());
 		}
 		return serverSocket;
@@ -440,6 +472,7 @@ public class RadiusClient {
 	private int socketTimeout = 3000;
 	private String authProtocol = AccessRequest.AUTH_PAP;
 	private static Log logger = LogFactory.getLog(RadiusClient.class);
+	private String localAddress=null;
 	private int localPort=0;
 
 }

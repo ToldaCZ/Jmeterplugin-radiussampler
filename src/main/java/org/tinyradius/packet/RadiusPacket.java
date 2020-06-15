@@ -16,10 +16,8 @@ import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+
 import org.tinyradius.attribute.RadiusAttribute;
 import org.tinyradius.attribute.VendorSpecificAttribute;
 import org.tinyradius.dictionary.AttributeType;
@@ -27,7 +25,7 @@ import org.tinyradius.dictionary.DefaultDictionary;
 import org.tinyradius.dictionary.Dictionary;
 import org.tinyradius.util.RadiusException;
 import org.tinyradius.util.RadiusUtil;
-
+import org.tinyradius.util.RadiusClient;
 /**
  * This class represents a Radius packet. Subclasses provide convenience methods
  * for special packet types.
@@ -1174,6 +1172,7 @@ public class RadiusPacket {
 	 * Next packet identifier.
 	 */
 	private static int nextPacketId = 0;
+	Map <String, Integer> hostId = new HashMap<>();
 
 	/**
 	 * Random number generator.

@@ -7,6 +7,7 @@ public interface RadiusSamplerElements {
 	public String ACCT_PORT="RadiusSampler.acctPort";
 	public String SERVER_IP="RadiusSampler.serverIP";
 	public String SHARED_SECRET="RadiusSampler.sharedSecret";
+	public String PACKET_IDENTIFIER="RadiusSampler.packetIdentifier";
 	public String SOCKET_TIMEOUT="RadiusSampler.socketTimeout";
 	public String RADIUS_RETRY="RadiusSampler.retry";
 	public String REQUEST_TYPE="RadiusSampler.requestType";
@@ -21,4 +22,5 @@ public interface RadiusSamplerElements {
 
 	public String STATUS_TYPE="RadiusSampler.statusType";
 	public String LOCAL_PORT="RadiusSampler.localPort";
+	public String LOCAL_ADDRESS="RadiusSampler.localAddress";
 }

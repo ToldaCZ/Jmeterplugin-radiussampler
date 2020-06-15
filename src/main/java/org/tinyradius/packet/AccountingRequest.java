@@ -62,6 +62,24 @@ public class AccountingRequest extends RadiusPacket {
 	}
 
 	/**
+	 * Constructs an Accounting-Request packet to be sent to a Radius server.
+	 *
+	 * @param userName
+	 *            user name
+	 * @param acctStatusType
+	 *            ACCT_STATUS_TYPE_*
+	 * @param enforceId
+	 *            Enforce PacketIdentifier
+	 */
+
+	public AccountingRequest(String userName, int acctStatusType, int enforceId) {
+		super(ACCOUNTING_REQUEST, enforceId);
+		setUserName(userName);
+		//TODO: DTIT
+		//setAcctStatusType(acctStatusType);
+	}
+
+	/**
 	 * Constructs an empty Accounting-Request to be received by a
 	 * Radius client.
 	 */
