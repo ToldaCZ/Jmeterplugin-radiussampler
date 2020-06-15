@@ -60,8 +60,8 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
 	// Variables declaration - do not modify
 	public javax.swing.JLabel acctPortLable;
 	public javax.swing.JTextField acctPortText;
-	public javax.swing.JLabel sourcePortLable;
-	public javax.swing.JTextField sourcePortText;
+	public javax.swing.JLabel localPortLable;
+	public javax.swing.JTextField localPortText;
 	public javax.swing.JLabel authPortLable;
 	public javax.swing.JTextField authPortText;
 	public javax.swing.ButtonGroup buttonGroup1;
@@ -142,8 +142,8 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
 		this.acctPortText.setText(element
 				.getPropertyAsString(RadiusSamplerElements.ACCT_PORT));
 
-		this.sourcePortText.setText(element
-				.getPropertyAsString(RadiusSamplerElements.SOURCE_PORT));
+		this.localPortText.setText(element
+				.getPropertyAsString(RadiusSamplerElements.LOCAL_PORT));
 
 		this.retryText.setText(element
 				.getPropertyAsString(RadiusSamplerElements.RADIUS_RETRY));
@@ -197,7 +197,7 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
 
 		element.setProperty(RadiusSamplerElements.AUTH_PORT, this.authPortText.getText());
 		element.setProperty(RadiusSamplerElements.ACCT_PORT, this.acctPortText.getText());
-		element.setProperty(RadiusSamplerElements.SOURCE_PORT, this.sourcePortText.getText());
+		element.setProperty(RadiusSamplerElements.LOCAL_PORT, this.localPortText.getText());
 
 		element.setProperty(RadiusSamplerElements.USER_NAME, this.usernameTextField.getText());
 		element.setProperty(RadiusSamplerElements.PASSWORD, new String(this.passwordText.getPassword()));
@@ -254,8 +254,8 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
         authPortText = new javax.swing.JTextField();
         acctPortLable = new javax.swing.JLabel();
         acctPortText = new javax.swing.JTextField();
-		sourcePortLable = new javax.swing.JLabel();
-		sourcePortText = new javax.swing.JTextField();
+		localPortLable = new javax.swing.JLabel();
+		localPortText = new javax.swing.JTextField();
         timeoutLable = new javax.swing.JLabel();
         timeoutText = new javax.swing.JTextField();
         retryLable = new javax.swing.JLabel();
@@ -304,7 +304,7 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
 
         acctPortLable.setText("Acct Port");
 
-		sourcePortLable.setText("Source Port");
+		localPortLable.setText("Local Port");
 
         timeoutLable.setText("Timeout");
 
@@ -346,9 +346,9 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
                         .addGap(18, 18, 18)
                         .addComponent(acctPortText, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addGap(18, 18, 18)
-						.addComponent(sourcePortLable)
+						.addComponent(localPortLable)
 						.addGap(18, 18, 18)
-						.addComponent(sourcePortText, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addComponent(localPortText, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(timeoutLable)
@@ -400,8 +400,8 @@ public class RadiusConfigGUI extends AbstractConfigGui implements ActionListener
                             .addComponent(authPortText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(acctPortLable)
                             .addComponent(acctPortText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-							.addComponent(sourcePortLable)
-							.addComponent(sourcePortText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+							.addComponent(localPortLable)
+							.addComponent(localPortText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(passwordText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

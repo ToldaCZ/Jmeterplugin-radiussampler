@@ -56,7 +56,7 @@ public class RadiusSampler extends AbstractSampler
 		String serverIp = getServerIp();
 		String sharedSecret = getSharedSecret();
 		int acctStatusType = getAcctStatusType(); //342
-		int srcPort = getSrcPort();
+		int localPort = getLocalPort();
 		int authPort = getAuthPort();
 		int acctPort = getAcctPort();
 		int retryCount = getRetryCount();
@@ -107,7 +107,7 @@ public class RadiusSampler extends AbstractSampler
 
 		//collectionProperty = add.removeAttributes(collectionProperty);
 
-		if ( (userName!=null && userName.length()>0 && password!=null && password.length()>0 ) && (serverIp != null) && (serverIp.length() > 0) && authPort!=0 && acctPort !=0 && srcPort >-1 && (sharedSecret!=null && sharedSecret.length()>0))
+		if ( (userName!=null && userName.length()>0 && password!=null && password.length()>0 ) && (serverIp != null) && (serverIp.length() > 0) && authPort!=0 && acctPort !=0 && localPort >-1 && (sharedSecret!=null && sharedSecret.length()>0))
 		{
 
 			if(System.getenv("GEN_SES_ID")!=null && System.getenv("GEN_SES_ID").toLowerCase().equals("true"))
@@ -200,7 +200,7 @@ public class RadiusSampler extends AbstractSampler
 					rcClient = new RadiusClient(serverIp,sharedSecret);
 					acctReq = new AccountingRequest(userName, acctStatusType);
 					rcClient.setAcctPort(acctPort);
-					rcClient.setSrcPort(srcPort);
+					rcClient.setLocalPort(localPort);
 					if(collectionProperty!=null)
 						acctReq=addAttributes.addAcctRadiusAttribute(acctReq, collectionProperty);
 					/*RadiusAttribute acctRadAttr = getAttributes();
@@ -291,7 +291,7 @@ public class RadiusSampler extends AbstractSampler
 				throw new NumberFormatException("Auth port must be greater than 0");
 			if (acctPort < 1)
 				throw new NumberFormatException("Acct port must be greater than 0");
-			if (srcPort < 0 || srcPort > 65535)
+			if (localPort < 0 || localPort > 65535)
 				throw new NumberFormatException("Source port must be greater than 0");
 		}
 		return res;
@@ -365,12 +365,12 @@ public class RadiusSampler extends AbstractSampler
 		return getPropertyAsInt(RadiusSamplerElements.AUTH_PORT);
 	}
 
-	public void setSrcPort(int srcPort){
-	setProperty(RadiusSamplerElements.SOURCE_PORT,srcPort);
+	public void setLocalPort(int localPort){
+	setProperty(RadiusSamplerElements.LOCAL_PORT,localPort);
 }
 
-	public int getSrcPort(){
-		return getPropertyAsInt(RadiusSamplerElements.SOURCE_PORT);
+	public int getLocalPort(){
+		return getPropertyAsInt(RadiusSamplerElements.LOCAL_PORT);
 	}
 
 

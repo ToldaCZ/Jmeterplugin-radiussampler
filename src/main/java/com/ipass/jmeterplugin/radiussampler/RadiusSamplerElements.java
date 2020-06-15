@@ -20,5 +20,5 @@ public interface RadiusSamplerElements {
 	public String AUTH_ACCT_REQ="RadiusSampler.authAcctReq";
 
 	public String STATUS_TYPE="RadiusSampler.statusType";
-	public String SOURCE_PORT="RadiusSampler.sourcePort";
+	public String LOCAL_PORT="RadiusSampler.localPort";
 }
