@@ -9,10 +9,8 @@ package org.tinyradius.attribute;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+
 import org.tinyradius.dictionary.AttributeType;
 import org.tinyradius.dictionary.Dictionary;
 import org.tinyradius.util.RadiusException;
@@ -235,8 +233,6 @@ public class VendorSpecificAttribute extends RadiusAttribute {
 	public byte[] writeAttribute() {
 		// write vendor ID
 		ByteArrayOutputStream bos = new ByteArrayOutputStream(255);
-		//bos.write(getChildVendorId() >> 40 & 0x0ffff);
-		//bos.write(getChildVendorId() >> 32 & 0x0ffff);
 		bos.write(getChildVendorId() >> 24 & 0x0ff);
 		bos.write(getChildVendorId() >> 16 & 0x0ff);
 		bos.write(getChildVendorId() >> 8 & 0x0ff);
@@ -280,35 +276,52 @@ public class VendorSpecificAttribute extends RadiusAttribute {
 			throw new RadiusException("Vendor-Specific attribute too short: " + length);
 
 		int vsaCode = data[offset];
-		int vsaLen = (data[offset + 1] & 0x000000ff) - 6;
-
 		if (vsaCode != VENDOR_SPECIFIC)
 			throw new RadiusException("not a Vendor-Specific attribute");
-
-		// read vendor ID and vendor data
-		/*
-		 * int vendorId = (data[offset + 2] << 24 | data[offset + 3] << 16 |
-		 * data[offset + 4] << 8 | ((int)data[offset + 5] & 0x000000ff));
-		 */
-		int vendorId = (unsignedByteToInt(data[offset + 2]) << 24 | unsignedByteToInt(data[offset + 3]) << 16
-		        | unsignedByteToInt(data[offset + 4]) << 8 | unsignedByteToInt(data[offset + 5]));
+		//int vsaLen = (data[offset + 1] & 0x000000ff) - 6;
+		int vsaLen = (data[offset + 1] & 0x0ff);
+		System.out.println("vsaLen: "+vsaLen);
+		int vendorId = (unsignedByteToInt(data[offset + 2]) << 24
+				| unsignedByteToInt(data[offset + 3]) << 16
+		        | unsignedByteToInt(data[offset + 4]) << 8
+				| unsignedByteToInt(data[offset + 5]));
 		setChildVendorId(vendorId);
 
-		// validate sub-attribute structure
-		int pos = 0;
-		int count = 0;
-		while (pos < vsaLen) {
-			if (pos + 1 >= vsaLen)
-				throw new RadiusException("Vendor-Specific attribute malformed");
-			// int vsaSubType = data[(offset + 6) + pos] & 0x0ff;
-			int vsaSubLen = data[(offset + 6) + pos + 1] & 0x0ff;
-			pos += vsaSubLen;
-			count++;
+		int pos = offset;
+		int count = 1;
+		int vsaSubLen;
+		int vsaSubType;
+		if (vendorId == 8164) {
+			vsaSubType = (unsignedByteToInt(data[offset + 6]) | unsignedByteToInt(data[offset + 7]));
+			vsaSubLen = (data[(offset + 8)] & 0x0ff )+ (data[(offset + 9)] & 0x0ff);
+		} else {
+			vsaSubType = (data[(offset + 6)] & 0x0ff);
+			vsaSubLen = (data[(offset + 7)] & 0x0ff);
 		}
+		System.out.println("vendorId: "+vendorId+", vsaSubType: "+vsaSubType+", vsaSubLen: "+vsaSubLen);
+		pos = pos + vsaSubLen;
+		/*
+		while (pos < vsaSubLen) {
+			System.out.println("pos:"+pos+", pos+1 = "+ (pos + 1)+" >= vsaLen = "+vsaLen);
+			if ((pos + 1) >= vsaLen)
+				throw new RadiusException("Vendor-Specific attribute malformed!");
+			// int vsaSubType = data[(offset + 6) + pos] & 0x0ff;
+			//OKint vsaSubLen = data[(offset + 6) + pos + 1] & 0x0ff;
+			pos++;
+			//count++;
+		}
+		*/
+		System.out.println("POS:"+ pos+", vsaLen: "+vsaLen);
+		/*
 		if (pos != vsaLen)
 			throw new RadiusException("Vendor-Specific attribute malformed");
-
+		*/
 		subAttributes = new ArrayList(count);
+		RadiusAttribute a = createRadiusAttribute(getDictionary(), vendorId, vsaSubType);
+		a.readAttribute(data, (pos) + 10, vsaSubLen);
+		subAttributes.add(a);
+
+		/*
 		pos = 0;
 		while (pos < vsaLen) {
 			int subtype = data[(offset + 6) + pos] & 0x0ff;
@@ -318,6 +331,33 @@ public class VendorSpecificAttribute extends RadiusAttribute {
 			subAttributes.add(a);
 			pos += sublength;
 		}
+		 */
+/*
+		int subtype;
+		int sublength;
+		if (vendorId == 8164) {
+			System.out.println("8164");
+			subtype = (data[(offset + 6)] & 0x0ff) + data[(offset + 7)] & 0x0ff;
+			sublength = (data[(offset + 8)] & 0x0ff) + data[(offset + 9)] & 0x0ff;
+		} else {
+			System.out.println("other");
+			subtype = data[(offset + 6)] & 0x0ff;
+			sublength = data[(offset + 6) + 1] & 0x0ff;
+		}
+		System.out.println("subtype: "+subtype+", sublength:"+sublength);
+		RadiusAttribute a = createRadiusAttribute(getDictionary(), vendorId, subtype);
+		if (vendorId == 8164) {
+			System.out.println("8164");
+			a.readAttribute(data, (offset + 6) + 10, sublength);
+			subAttributes.add(a);
+
+		} else {
+			System.out.println("other");
+			a.readAttribute(data, (offset + 6) + 8, sublength);
+			subAttributes.add(a);
+
+		}
+*/
 	}
 
 	private static int unsignedByteToInt(byte b) {

@@ -9,6 +9,8 @@ package org.tinyradius.attribute;
 import org.tinyradius.dictionary.AttributeType;
 import org.tinyradius.util.RadiusException;
 
+import java.util.Arrays;
+
 /**
  * This class represents a Radius attribute which only
  * contains a 32 bit integer.
@@ -97,8 +99,8 @@ public class IntegerAttribute extends RadiusAttribute {
 	 */
 	public void readAttribute(byte[] data, int offset, int length)
 	throws RadiusException {
-		if (length != 6)
-			throw new RadiusException("integer attribute: expected 4 bytes data");
+		if (length != 6 && length != 8)
+			throw new RadiusException("integer attribute: expected 4 byte data. Length:"+length);
 		super.readAttribute(data, offset, length);
 	}
 	

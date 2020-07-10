@@ -2,6 +2,9 @@ package com.ipass.jmeterplugin.radiussampler;
 
 import java.util.Random;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.apache.jmeter.samplers.AbstractSampler;
 import org.apache.jmeter.samplers.Entry;
 import org.apache.jmeter.samplers.SampleResult;
@@ -263,11 +266,20 @@ public class RadiusSampler extends AbstractSampler
 					}else{
 						if(acctRadiusPacket!=null){
 							res.setSuccessful(true);
-							res.setResponseData(acctRadiusPacket.getPacketTypeName().getBytes());
+							//res.setResponseData(acctRadiusPacket.getPacketTypeName().getBytes());
+							ObjectMapper response = new ObjectMapper();
+							response.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+							String json = null;
+							try {
+								json = response.writeValueAsString(acctRadiusPacket);
+							} catch (JsonProcessingException e) {
+								e.printStackTrace();
+							}
+							res.setResponseData(json);
 							res.setDataType("text");
 							res.setResponseCodeOK();
-							//res.setResponseMessage(acctStartRadiusPacket.getPacketTypeName());
-							res.setResponseMessage(String.join(",",(acctRadiusPacket.getAttributes())));
+							res.setResponseMessage(json);
+							//res.setResponseMessage(String.join(",",(acctRadiusPacket.getAttributes())));
 						}
 					}
 				}
