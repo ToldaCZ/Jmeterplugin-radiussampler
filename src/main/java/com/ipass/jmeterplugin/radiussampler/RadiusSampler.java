@@ -117,8 +117,7 @@ public class RadiusSampler extends AbstractSampler
 			if(System.getenv("GEN_SES_ID")!=null && System.getenv("GEN_SES_ID").toLowerCase().equals("true"))
 				userName = frameSessionId(userName);
 
-			try
-			{
+			try {
 				RadiusClient rcClient = null;
 				AccessRequest accessReq = null;
 				AccountingRequest acctReq = null;
@@ -133,75 +132,75 @@ public class RadiusSampler extends AbstractSampler
 
 				String reqType = getRequestType();
 
-				if(reqType.equalsIgnoreCase("both")){
-					reqAuthNAcct=true;
+				if (reqType.equalsIgnoreCase("both")) {
+					reqAuthNAcct = true;
 					//Auth Records
-					rcClient = new RadiusClient(serverIp,sharedSecret);
+					rcClient = new RadiusClient(serverIp, sharedSecret);
 					accessReq = new AccessRequest(userName, password);
 					rcClient.setAuthPort(authPort);
-					if(timeout>0)
+					if (timeout > 0)
 						rcClient.setSocketTimeout(timeout);
 
-					if(retryCount>0)
+					if (retryCount > 0)
 						rcClient.setRetryCount(retryCount);
 
 
-					if(collectionProperty!=null)
-						accessReq=addAttributes.addAuthRadiusAttribute(accessReq, collectionProperty);
+					if (collectionProperty != null)
+						accessReq = addAttributes.addAuthRadiusAttribute(accessReq, collectionProperty);
 
-					authRadiusPacket=rcClient.authenticate(accessReq);
+					authRadiusPacket = rcClient.authenticate(accessReq);
 
 
 					//Start Records
-					rcClient = new RadiusClient(serverIp,sharedSecret);
+					rcClient = new RadiusClient(serverIp, sharedSecret);
 					acctReq = new AccountingRequest(userName, AccountingRequest.ACCT_STATUS_TYPE_START);
 					rcClient.setAcctPort(acctPort);
-					if(timeout>0)
+					if (timeout > 0)
 						rcClient.setSocketTimeout(timeout);
 
-					if(retryCount>0)
+					if (retryCount > 0)
 
 
-						if(collectionProperty!=null)
-							acctReq=addAttributes.addAcctRadiusAttribute(acctReq, collectionProperty);
-					acctRadiusPacket=rcClient.account(acctReq);
+						if (collectionProperty != null)
+							acctReq = addAttributes.addAcctRadiusAttribute(acctReq, collectionProperty);
+					acctRadiusPacket = rcClient.account(acctReq);
 
 					//Stop records
-					rcClient = new RadiusClient(serverIp,sharedSecret);
+					rcClient = new RadiusClient(serverIp, sharedSecret);
 					acctReq = new AccountingRequest(userName, AccountingRequest.ACCT_STATUS_TYPE_STOP);
 					rcClient.setAcctPort(acctPort);
-					if(timeout>0)
+					if (timeout > 0)
 						rcClient.setSocketTimeout(timeout);
 
-					if(retryCount>0)
+					if (retryCount > 0)
 						rcClient.setRetryCount(retryCount);
 					/*if(acctRadAttr!=null)
 						accessReq.addAttribute(getAttributes());*/
-					if(collectionProperty!=null)
-						acctReq=addAttributes.addAcctRadiusAttribute(acctReq, collectionProperty);
-					acctRadiusPacket=rcClient.account(acctReq);
+					if (collectionProperty != null)
+						acctReq = addAttributes.addAcctRadiusAttribute(acctReq, collectionProperty);
+					acctRadiusPacket = rcClient.account(acctReq);
 
 
-				}else if(reqType.equalsIgnoreCase("auth")){
+				} else if (reqType.equalsIgnoreCase("auth")) {
 					//Auth Records
-					rcClient = new RadiusClient(serverIp,sharedSecret);
+					rcClient = new RadiusClient(serverIp, sharedSecret);
 					accessReq = new AccessRequest(userName, password);
 					rcClient.setAuthPort(authPort);
-					if(collectionProperty!=null)
-						accessReq=addAttributes.addAuthRadiusAttribute(accessReq, collectionProperty);
+					if (collectionProperty != null)
+						accessReq = addAttributes.addAuthRadiusAttribute(accessReq, collectionProperty);
 					/*RadiusAttribute radAttr = getAttributes();
 					if(radAttr!=null)
 						accessReq.addAttribute(getAttributes());*/
-					if(timeout>0)
+					if (timeout > 0)
 						rcClient.setSocketTimeout(timeout);
 
-					if(retryCount>0)
+					if (retryCount > 0)
 						rcClient.setRetryCount(retryCount);
-					authRadiusPacket=rcClient.authenticate(accessReq);
-				}else if(reqType.equalsIgnoreCase("acct")){
-					authRAcct=false;
+					authRadiusPacket = rcClient.authenticate(accessReq);
+				} else if (reqType.equalsIgnoreCase("acct")) {
+					authRAcct = false;
 
-					rcClient = new RadiusClient(serverIp,sharedSecret);
+					rcClient = new RadiusClient(serverIp, sharedSecret);
 					if (packetIdentifier != null && packetIdentifier.length() > 0)
 						acctReq = new AccountingRequest(userName, acctStatusType, Integer.parseInt(packetIdentifier));
 					else
@@ -209,62 +208,61 @@ public class RadiusSampler extends AbstractSampler
 					rcClient.setAcctPort(acctPort);
 					rcClient.setLocalAddress(localAddress);
 					rcClient.setLocalPort(localPort);
-					if(collectionProperty!=null)
-						acctReq=addAttributes.addAcctRadiusAttribute(acctReq, collectionProperty);
+					if (collectionProperty != null)
+						acctReq = addAttributes.addAcctRadiusAttribute(acctReq, collectionProperty);
 					/*RadiusAttribute acctRadAttr = getAttributes();
 					if(acctRadAttr!=null)
 						accessReq.addAttribute(getAttributes());*/
-					if(timeout>0)
+					if (timeout > 0)
 						rcClient.setSocketTimeout(timeout);
 
-					if(retryCount>0)
+					if (retryCount > 0)
 						rcClient.setRetryCount(retryCount);
 					else
 						rcClient.setRetryCount(1);
-					acctRadiusPacket=rcClient.account(acctReq);
-				}else{
-					throw new IllegalArgumentException("Radius packet type is only auth,acct or both. Invalid request Type"+reqType);
+					acctRadiusPacket = rcClient.account(acctReq);
+				} else {
+					throw new IllegalArgumentException("Radius packet type is only auth,acct or both. Invalid request Type" + reqType);
 				}
 
 
-				if(reqAuthNAcct){
+				if (reqAuthNAcct) {
 
-					if(authRadiusPacket!= null && acctRadiusPacket!=null){
+					if (authRadiusPacket != null && acctRadiusPacket != null) {
 						res.setSuccessful(true);
 						res.setResponseData(authRadiusPacket.getPacketTypeName().getBytes());
 						res.setDataType("text");
 						res.setResponseCodeOK();
 						res.setResponseMessage(authRadiusPacket.getPacketTypeName());
-					}
-					else {
+					} else {
 						res.setSuccessful(false);
-						if(authRadiusPacket==null)
+						if (authRadiusPacket == null)
 							res.setResponseMessage("Server Dropped the Auth request ");
-						if(acctRadiusPacket==null)
+						if (acctRadiusPacket == null)
 							res.setResponseMessage("Server Dropped the Acct request ");
 						res.setResponseCode("500");
 					}
 
 
-				}else{
+				} else {
 
-					if(authRAcct){
+					if (authRAcct) {
 
-						if(authRadiusPacket!=null){
+						if (authRadiusPacket != null) {
 							res.setSuccessful(true);
 							res.setResponseData(authRadiusPacket.getPacketTypeName().getBytes());
 							res.setDataType("text");
 							res.setResponseCodeOK();
 							res.setResponseMessage(authRadiusPacket.getPacketTypeName());
-						}else{
+						} else {
 							res.setSuccessful(false);
-							if(authRadiusPacket==null)
+							if (authRadiusPacket == null)
 								res.setResponseMessage("Server Dropped the Auth request ");
 							res.setResponseCode("500");
 						}
 
-					}else{
-						if(acctRadiusPacket!=null){
+					} else {
+						if (acctRadiusPacket != null) {
 							res.setSuccessful(true);
 							//res.setResponseData(acctRadiusPacket.getPacketTypeName().getBytes());
 							ObjectMapper response = new ObjectMapper();
@@ -280,16 +278,19 @@ public class RadiusSampler extends AbstractSampler
 							res.setResponseCodeOK();
 							res.setResponseMessage(json);
 							//res.setResponseMessage(String.join(",",(acctRadiusPacket.getAttributes())));
+						} else {
+							res.setSuccessful(false);
+							res.setResponseMessage("Server Dropped the Acct request ");
+							res.setResponseCode("500");
 						}
 					}
 				}
-			}
-			catch (Throwable excep) {
+			}catch (Throwable excep) {
 				excep.printStackTrace();
 				res.setSuccessful(false);
 				res.setResponseMessage(excep.getMessage());
 				res.setResponseCode("500");
-				throw new NullPointerException(excep.toString());
+				//throw new NullPointerException(excep.toString());
 			}
 			finally {
 				res.sampleEnd();
