@@ -5,12 +5,12 @@ import java.util.Locale;
         import java.util.ResourceBundle;
         import org.apache.jmeter.util.JMeterUtils;
 
-public class RadiusSampler {
+public class RadiusSamplerUtils {
     private static ResourceBundle resources = null;
     private static Locale locale = null;
     public static final String RES_KEY_PFX = "[res_key=";
 
-    public RadiusSampler() {
+    public RadiusSamplerUtils() {
     }
 
     private static void initResources() {
