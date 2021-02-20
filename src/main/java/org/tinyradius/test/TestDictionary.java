@@ -16,6 +16,7 @@ import org.tinyradius.dictionary.Dictionary;
 import org.tinyradius.dictionary.DefaultDictionary;
 import org.tinyradius.dictionary.DictionaryParser;
 import org.tinyradius.packet.AccessRequest;
+import org.tinyradius.packet.RadiusPacket;
 
 /**
  * Shows how to use TinyRadius with a custom dictionary
@@ -37,11 +38,14 @@ public class TestDictionary {
 		//ar.addAttribute("SN-Software-Version","21.10 (230474)");
 		//ar.addAttribute("3GPP-Negotiated-DSCP", "1");
 		ar.addAttribute("3GPP-User-Location-Info", "130 50 240 16 85 60 50 240 16 01 224 113 112");
+		ar.addAttribute("SN-Rad-APN-Name", "MIRA");
 		//User-Password
 		//ar.addAttribute("Login-LAT-Group", "7");
 		//ar.addAttribute("SN-Disconnect-Reason","6");
 		//ar.addAttribute("SN-Local-IP-Address","10.11.12.213");
-		System.out.println(ar);
+		//System.out.println(ar);
+		System.out.println(ar.getAttributes());
+
 	}
 	
 }

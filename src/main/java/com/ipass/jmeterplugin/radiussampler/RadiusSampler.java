@@ -196,6 +196,8 @@ public class RadiusSampler extends AbstractSampler
 
 					if (retryCount > 0)
 						rcClient.setRetryCount(retryCount);
+					else
+						rcClient.setRetryCount(1);
 					authRadiusPacket = rcClient.authenticate(accessReq);
 				} else if (reqType.equalsIgnoreCase("acct")) {
 					authRAcct = false;
@@ -249,11 +251,37 @@ public class RadiusSampler extends AbstractSampler
 					if (authRAcct) {
 
 						if (authRadiusPacket != null) {
-							res.setSuccessful(true);
-							res.setResponseData(authRadiusPacket.getPacketTypeName().getBytes());
-							res.setDataType("text");
-							res.setResponseCodeOK();
-							res.setResponseMessage(authRadiusPacket.getPacketTypeName());
+							ObjectMapper response = new ObjectMapper();
+							response.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+							String json = null;
+							try {
+								json = response.writeValueAsString(authRadiusPacket);
+							} catch (JsonProcessingException e) {
+								e.printStackTrace();
+							}
+							if (authRadiusPacket.getPacketTypeName() == "Access-Accept") {
+								res.setSuccessful(true);
+								//res.setResponseData(authRadiusPacket.getPacketTypeName().getBytes());
+								res.setDataType("text");
+								res.setResponseData(json,"UTF-8");
+								res.setResponseCode("2");
+								//res.setResponseMessage(authRadiusPacket.getPacketTypeName());
+								res.setResponseMessage(json);
+							} else if (authRadiusPacket.getPacketTypeName() == "Access-Reject") {
+								res.setSuccessful(true);
+								//res.setResponseMessage("Access-Reject");
+								res.setResponseMessage(json);
+								res.setDataType("text");
+								res.setResponseData(json,"UTF-8");
+								res.setResponseCode("3");
+							} else {
+								res.setSuccessful(false);
+								//res.setResponseMessage("Unexpected response");
+								res.setResponseMessage(json);
+								res.setDataType("text");
+								res.setResponseData(json,"UTF-8");
+								res.setResponseCode(authRadiusPacket.getPacketTypeName());
+							}
 						} else {
 							res.setSuccessful(false);
 							if (authRadiusPacket == null)

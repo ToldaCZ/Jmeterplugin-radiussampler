@@ -197,10 +197,11 @@ public class RadiusAttribute {
 	public void readAttribute(byte[] data, int offset, int length) throws RadiusException {
 		if (length < 2)
 			throw new RadiusException("attribute length too small: " + length);
-		if (getVendorId() != 8164) {
+		if (getVendorId() == -1) {
 			int attrType = data[offset] & 0xff;
-			int attrLen = data[offset + 1] & 0xff;
+			int attrLen = data[offset +1] & 0xff;
 			byte[] attrData = new byte[attrLen - 2];
+			//System.out.println(getVendorId()+" OK "+offset+" "+attrType+" "+attrLen);
 			try {
 				System.arraycopy(data, offset + 2, attrData, 0, attrLen - 2);
 			} catch (Exception e){
@@ -208,22 +209,44 @@ public class RadiusAttribute {
 			}
 			setAttributeType(attrType);
 			setAttributeData(attrData);
-		} else {
-			int attrType = (data[offset] & 0xff) | (data[offset+1] & 0xff);
-			int attrLen =4;
+		}else if (getVendorId() != 8164) {
+			int attrType = data[offset+6] & 0xff;
+			int attrLen = data[offset + 7] & 0xff;
+			byte[] attrData = new byte[attrLen - 2];
+			//System.out.println(getVendorId()+" OK "+offset+" "+attrType+" "+attrLen);
 			try {
-				attrLen = data[offset + 2] & 0xff | data[offset + 3] & 0xff;
- 			} catch (Exception e){
-				System.out.println(e.toString());
-			}
-			byte[] attrData = new byte[attrLen - 4];
-			try {
-				System.arraycopy(data, offset + 4, attrData, 0, attrLen - 4);
+				System.arraycopy(data, offset + 8, attrData, 0, attrLen - 2);
 			} catch (Exception e){
 				System.out.println(e.toString());
 			}
 			setAttributeType(attrType);
 			setAttributeData(attrData);
+		} else if ((getVendorId() == 8164)){
+			//offset = offset + 4;
+			//int attrType = (data[offset] & 0xff) << 8 | (data[offset] & 0xff);
+			//int attrLen= (data[offset] & 0xff) << 8 | data[offset] & 0xff;
+			int attrType = ((data[(offset + 6)] & 0xff) << 8 ) | (data[(offset + 7)] & 0xff);
+			int attrLen = ((data[(offset + 8)] & 0xff ) << 8 ) | (data[(offset + 9)] & 0xff);
+			/*
+			try {
+				attrLen = data[offset + 2] & 0xff | data[offset + 3] & 0xff;
+ 			} catch (Exception e){
+				System.out.println(e.toString());
+			}
+			 */
+			if (attrLen < 4 )
+				System.out.println("ERR "+offset+" "+attrType+" "+attrLen);
+			else {
+				//System.out.println("8146 OK " + offset + " " + attrType + " " + attrLen);
+				byte[] attrData = new byte[attrLen - 4];
+				try {
+					System.arraycopy(data, offset + 10, attrData, 0, attrLen - 4);
+				} catch (Exception e) {
+					System.out.println(e.toString());
+				}
+				setAttributeType(attrType);
+				setAttributeData(attrData);
+			}
 		}
 	}
 

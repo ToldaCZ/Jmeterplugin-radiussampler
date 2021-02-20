@@ -292,9 +292,11 @@ VENDORATTR      8164    SN-Mediation-VPN-Name           104  string
 VENDORATTR      8164    SN-Mediation-Acct-Rsp-Action    105  integer
 VENDORATTR      8164    SN-Mediation-Enabled            123  integer
 VENDORATTR      8164    SN-Mediation-No-Interims        146  integer
+VENDORATTR      8164    SN-Rad-APN-Name                 162  string
 VENDORATTR      8164    SN-Rulebase                     250  string
 VENDORATTR      8164    SN-Software-Version             288  string
 VENDORATTR      8164    SN-Acs-Credit-Control-Group     301  string
+VENDORATTR      8164    SN-Customer-ID                  325  string
 
 VENDOR  		10415	3GPP
 VENDORATTR      10415   3GPP-IMSI                        1  string
@@ -315,6 +317,12 @@ VENDORATTR      10415   3GPP-RAT-Type                   21  integerByte
 VENDORATTR      10415   3GPP-User-Location-Info         22  octets
 VENDORATTR      10415   3GPP-MS-TimeZone                23  octets
 VENDORATTR      10415   3GPP-Negotiated-DSCP            26  integerByte
+
+VENDOR  		5535	3GPP2
+VENDORATTR      5535	3GPP2-Session-Termination-Capability	88  integer
+
+
+
 #
 ##################### DTIT #####################
 #

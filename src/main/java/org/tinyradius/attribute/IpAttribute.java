@@ -51,6 +51,8 @@ public class IpAttribute extends RadiusAttribute {
 		StringBuffer ip = new StringBuffer();
 		byte[] data = getAttributeData();
 		if (data == null || data.length != 4)
+			//DTIT
+			//return ip.toString();
 			throw new RuntimeException("ip attribute: expected 4 bytes attribute data");
 		
 		ip.append(data[0] & 0x0ff);

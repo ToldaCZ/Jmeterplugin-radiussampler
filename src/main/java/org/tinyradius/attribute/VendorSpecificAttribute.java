@@ -292,33 +292,36 @@ public class VendorSpecificAttribute extends RadiusAttribute {
 		int vsaSubLen;
 		int vsaSubType;
 		if (vendorId == 8164) {
-			vsaSubType = (unsignedByteToInt(data[offset + 6]) | unsignedByteToInt(data[offset + 7]));
-			vsaSubLen = (data[(offset + 8)] & 0x0ff )+ (data[(offset + 9)] & 0x0ff);
+			//EPI
+			//vsaSubType = (unsignedByteToInt(data[offset + 6]) | unsignedByteToInt(data[offset + 7]));
+			vsaSubType = ((data[(offset + 6)] & 0xff) << 8 ) | (data[(offset + 7)] & 0xff);
+			//EPI
+			//vsaSubLen = (data[(offset + 8)] & 0x0ff )+ (data[(offset + 9)] & 0x0ff);
+			vsaSubLen = ((data[(offset + 8)] & 0xff) << 8 ) | (data[(offset + 9)] & 0xff);
 		} else {
-			vsaSubType = (data[(offset + 6)] & 0x0ff);
-			vsaSubLen = (data[(offset + 7)] & 0x0ff);
+			vsaSubType = (data[(offset + 6)] & 0xff);
+			vsaSubLen = (data[(offset + 7)] & 0xff);
 		}
 		System.out.println("vendorId: "+vendorId+", vsaSubType: "+vsaSubType+", vsaSubLen: "+vsaSubLen);
-		pos = pos + vsaSubLen;
-		/*
+		//pos = pos + vsaSubLen;
+/*
 		while (pos < vsaSubLen) {
 			System.out.println("pos:"+pos+", pos+1 = "+ (pos + 1)+" >= vsaLen = "+vsaLen);
 			if ((pos + 1) >= vsaLen)
 				throw new RadiusException("Vendor-Specific attribute malformed!");
-			// int vsaSubType = data[(offset + 6) + pos] & 0x0ff;
-			//OKint vsaSubLen = data[(offset + 6) + pos + 1] & 0x0ff;
+			    //int vsaSubType = data[(offset + 6) + pos] & 0x0ff;
+			    //int vsaSubLen = data[(offset + 6) + pos + 1] & 0x0ff;
 			pos++;
-			//count++;
+			count++;
 		}
-		*/
-		System.out.println("POS:"+ pos+", vsaLen: "+vsaLen);
-		/*
+
 		if (pos != vsaLen)
 			throw new RadiusException("Vendor-Specific attribute malformed");
-		*/
+*/
+		System.out.println("POS:"+ pos+", vsaLen: "+vsaLen);
 		subAttributes = new ArrayList(count);
 		RadiusAttribute a = createRadiusAttribute(getDictionary(), vendorId, vsaSubType);
-		a.readAttribute(data, (pos) + 10, vsaSubLen);
+		a.readAttribute(data, offset, vsaSubLen);
 		subAttributes.add(a);
 
 		/*

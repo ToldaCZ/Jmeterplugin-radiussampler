@@ -28,6 +28,7 @@ public class TestServer {
 		RadiusServer server = new RadiusServer() {
 			// Authorize localhost/testing123
 			public String getSharedSecret(InetSocketAddress client) {
+				System.out.println("HOST:" +client.getAddress().getHostAddress());
 				if (client.getAddress().getHostAddress().equals("127.0.0.1")) {
 					return "gprsgprs";
 				}
@@ -44,12 +45,13 @@ public class TestServer {
 
 			// Adds an attribute to the Access-Accept packet
 			public RadiusPacket accessRequestReceived(AccessRequest accessRequest, InetSocketAddress client) throws RadiusException {
+				System.out.println("HOST:" +client.getAddress().getHostAddress());
 				System.out.println("Received Access-Request:\n" + accessRequest);
 				RadiusPacket packet = super.accessRequestReceived(accessRequest, client);
 				if (packet == null) {
 					System.out.println("Ignore packet.");
 				}
-				else if (packet.getPacketType() == RadiusPacket.ACCESS_ACCEPT) {
+				else if (packet.getPacketType() == RadiusPacket.ACCESS_REQUEST) {
 					packet.addAttribute("Reply-Message", "Welcome " + accessRequest.getUserName() + "!");
 				}
 				else {
