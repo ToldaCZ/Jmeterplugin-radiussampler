@@ -321,6 +321,19 @@ VENDORATTR      10415   3GPP-Negotiated-DSCP            26  integerByte
 VENDOR  		5535	3GPP2
 VENDORATTR      5535	3GPP2-Session-Termination-Capability	88  integer
 
+#FIX
+VENDOR	2352	EricssonAB
+VENDORATTR	5535    Mac-Addr	145	string
+VENDORATTR	5535    RB-IPV6-DNS	207	string
+
+
+VENDOR	311	Microsoft
+VENDORATTR	311	MS-Primary-DNS-Server	28	ipaddr
+VENDORATTR	311	MS-Secondary-DNS-Server	29	ipaddr
+
+VENDOR	6527	Nokia
+VENDORATTR	6527	Alc-PPPoEService-Name	35	string
+
 
 
 #
