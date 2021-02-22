@@ -222,7 +222,8 @@ public class AccessRequest extends RadiusPacket {
 		if (getAuthProtocol().equals(AUTH_PAP)) {
 			byte[] pass = encodePapPassword(RadiusUtil.getUtf8Bytes(this.password), RadiusUtil.getUtf8Bytes(sharedSecret));
 			removeAttributes(USER_PASSWORD);
-			addAttribute(new RadiusAttribute(USER_PASSWORD, pass));
+			if (password != "jmeter-nopass")
+				addAttribute(new RadiusAttribute(USER_PASSWORD, pass));
 		}
 		else if (getAuthProtocol().equals(AUTH_CHAP)) {
 			byte[] challenge = createChapChallenge();

@@ -85,6 +85,9 @@ public class RadiusSampler extends AbstractSampler
 
 		if((password==null || password.length()<=0) && collectionProperty!=null){
 			password = add.getRequiredAttribute(collectionProperty,"User-Password");
+			if((password==null || password.length()<=0)) {
+				password = "jmeter-nopass";
+			}
 		}
 
 		if((add.getRequiredAttribute(collectionProperty,"Acct-Status-Type")!=null && add.getRequiredAttribute(collectionProperty,"Acct-Status-Type").length()>0) && collectionProperty!=null) {
@@ -110,7 +113,6 @@ public class RadiusSampler extends AbstractSampler
 		res.sampleStart();
 
 		//collectionProperty = add.removeAttributes(collectionProperty);
-
 		if ( (userName!=null && userName.length()>0 && password!=null && password.length()>0 ) && (serverIp != null) && (serverIp.length() > 0) && authPort!=0 && acctPort !=0 && localPort >-1 && (sharedSecret!=null && sharedSecret.length()>0))
 		{
 

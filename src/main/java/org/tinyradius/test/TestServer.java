@@ -30,7 +30,7 @@ public class TestServer {
 			public String getSharedSecret(InetSocketAddress client) {
 				System.out.println("HOST:" +client.getAddress().getHostAddress());
 				if (client.getAddress().getHostAddress().equals("127.0.0.1")) {
-					return "gprsgprs";
+					return "aaa";
 				}
 				return null;
 			}
