@@ -285,6 +285,7 @@ VENDORATTR      14122   WISPr-Billing-Class-Of-Service        11      string
 VENDOR			8164	Starent
 VENDORATTR      8164    SN-VPN-ID                         1  integer
 VENDORATTR      8164    SN-VPN-Name                       2  string
+VENDORATTR      8164    SN-Discommect-Reason              3  integer
 VENDORATTR      8164    SN-Service-Type                  24  integer
 VENDORATTR      8164    SN-GTP-Version                   62  integer
 VENDORATTR      8164    SN-Virtual-APN-Name              94  string
