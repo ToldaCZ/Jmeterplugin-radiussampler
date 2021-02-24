@@ -309,6 +309,7 @@ VENDORATTR      10415   3GPP-GGSN-Address                7  ipaddr
 VENDORATTR      10415   3GPP-IMSI-MCC-MNC                8  string
 VENDORATTR      10415   3GPP-GGSN-MCC-MNC                9  string
 VENDORATTR      10415   3GPP-NSAPI                      10  string
+VENDORATTR      10415   3GPP-Session-Stop-Indicator     11  string
 VENDORATTR      10415   3GPP-Selection-Mode             12  string
 VENDORATTR      10415   3GPP-Charging-Characteristics   13  string
 VENDORATTR      10415   3GPP-SGSN-MCC-MNC               18  string
